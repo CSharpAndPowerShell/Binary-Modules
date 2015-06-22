@@ -34,7 +34,8 @@ namespace User
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Letra en la que se montará el 'HomeDirectory'.")]
-        public char HomeDirDrive { get; set; }
+        [ValidateLength(1, 1)]
+        public string HomeDirDrive { get; set; }
         [Parameter(Position = 4,
             Mandatory = false,
             ValueFromPipeline = true,
@@ -106,7 +107,7 @@ namespace User
                 {
                     User.Invoke("Put", new object[] { "Profile", Profile });
                 }
-                if (UserFlags != null)
+                if (UserFlags > 0)
                 {
                     User.Invoke("Put", new object[] { "UserFlags", UserFlags });
                 }
