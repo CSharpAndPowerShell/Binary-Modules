@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <!--New-User-->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <!--Meta-Information-->
+    <command:details>
+      <command:name>New-User</command:name>
+      <!--Description node that contains a detailed cmdlet description-->
+      <maml:description>
+        <maml:para>Crear usuarios locales.</maml:para>
+      </maml:description>
+      <!--End description node-->
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>User</command:noun>
+      <dev:version>1.7.0</dev:version>
+    </command:details>
+    <!--End Meta-Information-->
+    <!--Command-Syntax node, if multiple parameter sets are used, add a Command-SyntaxItem node for each parameter set-->
+    <command:syntax>
+      <!--Parameter "Name"-->
+      <command:syntaxItem>
+        <maml:name>New-User</maml:name>
+        <command:parameter required="true" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Nombre del nuevo usuario.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+        <!--End parameter "Name"-->
+        <!--Parameter "Password"-->
+        <command:parameter required="false" position="2">
+          <maml:name>Password</maml:name>
+          <maml:description>
+            <maml:para>Contraseña para el nuevo usuario.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+      <!--End parameter "Password"-->
+    <!--Parameter "Description"-->
+        <command:parameter required="false" position="3">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>Descripción del nuevo usuario.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+      <!--End parameter "Description"-->
+      <!--Parameter "HomeDirDrive"-->
+        <command:parameter required="false" position="4">
+          <maml:name>HomeDirDrive</maml:name>
+          <maml:description>
+            <maml:para>Letra en la que se montará el 'HomeDirectory'.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+      <!--End parameter "HomeDirDrive"-->
+      <!--Parameter "HomeDirectory"-->
+        <command:parameter required="false" position="5">
+          <maml:name>HomeDirectory</maml:name>
+          <maml:description>
+            <maml:para>Carpeta personal del nuevo usuario.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+      <!--End parameter "HomeDirectory"-->
+        <!--Parameter "LoginScript"-->
+        <command:parameter required="false" position="6">
+          <maml:name>LoginScript</maml:name>
+          <maml:description>
+            <maml:para>Carpeta personal del nuevo usuario.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+      <!--End parameter "LoginScript"-->
+      <!--Parameter "Profile"-->
+        <command:parameter required="false" position="7">
+          <maml:name>Profile</maml:name>
+          <maml:description>
+            <maml:para>Ruta al perfil para el nuevo usuario.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+      <!--End parameter "Profile"-->
+      <!--Parameter "Group"-->
+        <command:parameter required="false" position="8">
+          <maml:name>Group</maml:name>
+          <maml:description>
+            <maml:para>Grupo al que pertenecerá el nuevo usuario.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+      <!--End parameter "Group"-->
+      <!--Parameter "UserFlags"-->
+        <command:parameter required="false" position="9">
+          <maml:name>UserFlags</maml:name>
+          <maml:description>
+            <maml:para>Propiedades para el nuevo usuario.</maml:para>
+          </maml:description>
+          <command:parameterValue>Integer</command:parameterValue>
+        </command:parameter>
+      <!--End parameter "UserFlags"-->
+      </command:syntaxItem>
+    </command:syntax>
+    <!--End command-Syntax node-->
+  <!--Command-Parameter node (one foreach parameter)-->
+  <command:parameters>
+    <!--Parameter "Name"-->
+   <command:parameter required="true" position="1">
+      <maml:name>Name</maml:name>
+      <maml:description>
+         <maml:para>Nombre del nuevo usuario.</maml:para>
+      </maml:description>
+      <command:parameterValue required="true">
+         String
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+   </command:parameter>
+    <!--End Parameter "Name"-->
+    <!--Parameter "Password"-->
+     <command:parameter required="false" position="2">
+      <maml:name>Password</maml:name>
+      <maml:description>
+         <maml:para>Contraseña para el nuevo usuario.</maml:para>
+      </maml:description>
+      <command:parameterValue required="false">
+         String
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+   </command:parameter>
+    <!--End Parameter "Password"-->
+    <!--Parameter "Description"-->
+  <command:parameter required="false" position="3">
+      <maml:name>Description</maml:name>
+      <maml:description>
+         <maml:para>Descripción del nuevo usuario.</maml:para>
+      </maml:description>
+      <command:parameterValue required="false">
+         String
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue>Creado con New-User Cmdlet.</dev:defaultValue>
+   </command:parameter>
+  <!--End Parameter "Description"-->
+  <!--Parameter "HomeDirDrive"-->
+  <command:parameter required="false" position="4">
+      <maml:name>HomeDirDrive</maml:name>
+      <maml:description>
+         <maml:para>Letra en la que se montará el 'HomeDirectory'.</maml:para>
+      </maml:description>
+      <command:parameterValue required="false">
+         String
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+   </command:parameter>
+  <!--End Parameter "HomeDirDrive"-->
+  <!--Parameter "HomeDirectory"-->
+  <command:parameter required="false" position="5">
+      <maml:name>HomeDirectory</maml:name>
+      <maml:description>
+         <maml:para>Carpeta personal del nuevo usuario.</maml:para>
+      </maml:description>
+      <command:parameterValue required="false">
+         String
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+   </command:parameter>
+  <!--End Parameter "HomeDirectory"-->
+  <!--Parameter "LoginScript"-->
+  <command:parameter required="false" position="6">
+      <maml:name>LoginScript</maml:name>
+      <maml:description>
+         <maml:para>Script de inicio de sesión para el nuevo usuario.</maml:para>
+      </maml:description>
+      <command:parameterValue required="false">
+         String
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+   </command:parameter>
+  <!--End Parameter "LoginScript"-->
+  <!--Parameter "Profile"-->
+  <command:parameter required="false" position="7">
+      <maml:name>Profile</maml:name>
+      <maml:description>
+         <maml:para>Ruta al perfil para el nuevo usuario.</maml:para>
+      </maml:description>
+      <command:parameterValue required="false">
+         String
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+   </command:parameter>
+  <!--End Parameter "Profile"-->
+  <!--Parameter "Group"-->
+  <command:parameter required="false" position="8">
+      <maml:name>Group</maml:name>
+      <maml:description>
+         <maml:para>Grupo al que pertenecerá el nuevo usuario.</maml:para>
+      </maml:description>
+      <command:parameterValue required="false">
+         String
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+   </command:parameter>
+  <!--End Parameter "Group"-->
+  <!--Parameter "UserFlags"-->
+  <command:parameter required="false" position="9">
+      <maml:name>UserFlags</maml:name>
+      <maml:description>
+         <maml:para>Propiedades para el nuevo usuario.</maml:para>
+      </maml:description>
+      <command:parameterValue required="false">
+         Integer
+      </command:parameterValue>
+      <dev:type>
+         <maml:name></maml:name>
+         <maml:uri/>
+      </dev:type>
+      <dev:defaultValue>65536</dev:defaultValue>
+   </command:parameter>
+  <!--End Parameter "UserFlags"-->
+</command:parameters>
+  <!--End Command-Parameter node-->
+<!--Related Links-->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://github.com/CSharpAndPowerShell/Binary-Modules</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+    <!--End Related Links-->
+  </command:command>
+  <!--End New-User-->
+  </helpItems>
