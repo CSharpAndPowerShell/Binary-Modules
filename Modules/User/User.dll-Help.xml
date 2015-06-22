@@ -100,7 +100,7 @@
           <maml:description>
             <maml:para>Propiedades para el nuevo usuario.</maml:para>
           </maml:description>
-          <command:parameterValue>Integer</command:parameterValue>
+          <command:parameterValue>Int</command:parameterValue>
         </command:parameter>
       <!--End parameter "UserFlags"-->
       </command:syntaxItem>
@@ -130,7 +130,7 @@
       <maml:description>
          <maml:para>Contraseña para el nuevo usuario.</maml:para>
       </maml:description>
-      <command:parameterValue required="false">
+      <command:parameterValue required="true">
          String
       </command:parameterValue>
       <dev:type>
@@ -146,7 +146,7 @@
       <maml:description>
          <maml:para>Descripción del nuevo usuario.</maml:para>
       </maml:description>
-      <command:parameterValue required="false">
+      <command:parameterValue required="true">
          String
       </command:parameterValue>
       <dev:type>
@@ -162,7 +162,7 @@
       <maml:description>
          <maml:para>Letra en la que se montará el 'HomeDirectory'.</maml:para>
       </maml:description>
-      <command:parameterValue required="false">
+      <command:parameterValue required="true">
          String
       </command:parameterValue>
       <dev:type>
@@ -178,7 +178,7 @@
       <maml:description>
          <maml:para>Carpeta personal del nuevo usuario.</maml:para>
       </maml:description>
-      <command:parameterValue required="false">
+      <command:parameterValue required="true">
          String
       </command:parameterValue>
       <dev:type>
@@ -194,7 +194,7 @@
       <maml:description>
          <maml:para>Script de inicio de sesión para el nuevo usuario.</maml:para>
       </maml:description>
-      <command:parameterValue required="false">
+      <command:parameterValue required="true">
          String
       </command:parameterValue>
       <dev:type>
@@ -210,7 +210,7 @@
       <maml:description>
          <maml:para>Ruta al perfil para el nuevo usuario.</maml:para>
       </maml:description>
-      <command:parameterValue required="false">
+      <command:parameterValue required="true">
          String
       </command:parameterValue>
       <dev:type>
@@ -226,7 +226,7 @@
       <maml:description>
          <maml:para>Grupo al que pertenecerá el nuevo usuario.</maml:para>
       </maml:description>
-      <command:parameterValue required="false">
+      <command:parameterValue required="true">
          String
       </command:parameterValue>
       <dev:type>
@@ -242,14 +242,14 @@
       <maml:description>
          <maml:para>Propiedades para el nuevo usuario.</maml:para>
       </maml:description>
-      <command:parameterValue required="false">
-         Integer
+      <command:parameterValue required="true">
+         Int
       </command:parameterValue>
       <dev:type>
          <maml:name></maml:name>
          <maml:uri/>
       </dev:type>
-      <dev:defaultValue>65536</dev:defaultValue>
+      <dev:defaultValue></dev:defaultValue>
    </command:parameter>
   <!--End Parameter "UserFlags"-->
 </command:parameters>

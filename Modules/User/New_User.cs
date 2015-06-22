@@ -107,7 +107,7 @@ namespace User
                 {
                     User.Invoke("Put", new object[] { "Profile", Profile });
                 }
-                if (UserFlags > 0)
+                if (UserFlags != null)
                 {
                     User.Invoke("Put", new object[] { "UserFlags", UserFlags });
                 }
