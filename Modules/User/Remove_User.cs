@@ -1,16 +1,13 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
 using System.DirectoryServices;
+
 namespace User
 {
     [Cmdlet(VerbsCommon.Remove, "User")]
     public class Remove_User : Cmdlet
     {
         #region Parameters
-        [Parameter(Position = 0,
-            Mandatory = true,
-            ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre del usuario a eliminar.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del usuario a eliminar.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion
@@ -18,6 +15,7 @@ namespace User
         private DirectoryEntry AD;
         private DirectoryEntry User;
         #endregion
+        #region Methods
         protected override void BeginProcessing()
         {
             AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
@@ -45,5 +43,6 @@ namespace User
             //Cerrar conexion hacia el usuario
             User.Close();
         }
+        #endregion
     }
 }
