@@ -26,7 +26,6 @@ namespace User
         [Parameter(Position = 6, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Ruta al perfil para el nuevo usuario.")]
         public string Profile { get; set; }
         [Parameter(Position = 7, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Grupo al que pertenecerá el nuevo usuario.")]
-        [ValidateLength(1, 14)]
         public string Group { get; set; }
         [Parameter(Position = 8, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Propiedades para el nuevo usuario.")]
         public int UserFlags { get; set; }
@@ -39,6 +38,7 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
+            //Abre conexión al DirectoryService
             AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
         }
         protected override void ProcessRecord()
@@ -47,40 +47,60 @@ namespace User
             {
                 //Se crea el objeto del usuario
                 User = AD.Children.Add(Name, "user");
+                //Los siguientes if validan si la variable no esta vacía, de ser así se aplican las propiedades
                 if (Password != null)
                 {
+                    //Contraseña para la nueva cuenta de usuario
                     User.Invoke("SetPassword", new object[] { Password });
                 }
                 if (Description != null)
                 {
+                    //Descripción de la nueva cuenta de usuario
                     User.Invoke("Put", new object[] { "Description", Description });
                 }
                 if (HomeDirDrive != null)
                 {
+                    //Letra de la unidad donde se montará la carpeta particular
                     User.Invoke("Put", new object[] { "HomeDirDrive", HomeDirDrive + ":" });
                 }
                 if (HomeDirectory != null)
                 {
+                    //Carpeta particular del usuario
                     User.Invoke("Put", new object[] { "HomeDirectory", HomeDirectory });
                 }
                 if (LoginScript != null)
                 {
+                    //Script de inicio de sesión
                     User.Invoke("Put", new object[] { "LoginScript", LoginScript });
                 }
                 if (Profile != null)
                 {
+                    //Perfil móvil
                     User.Invoke("Put", new object[] { "Profile", Profile });
                 }
-                if (UserFlags != null)
+                if (UserFlags != 0)
                 {
+                    //Propiedades del usuario
                     User.Invoke("Put", new object[] { "UserFlags", UserFlags });
                 }
-                //Se aplican los cambios
+                //Aplicando los cambios
                 User.CommitChanges();
-                //Se añade a un grupo
+                //Asignar a un grupo
+                //Obtiene el grupo
                 Grp = AD.Children.Find(Group, "group");
                 if (Grp != null)
                 {
+                    //Se agrega el usuario al grupo
+                    Grp.Invoke("Add", new object[] { User.Path.ToString() });
+                }
+                else if ((Group != null) && (Grp == null)) {
+                    //Si el grupo no existe se crea
+                    Grp = AD.Children.Add(Name, "group");
+                    //Se aplican los cambios
+                    Grp.CommitChanges();
+                    //Obtiene el grupo
+                    Grp = AD.Children.Find(Group, "group");
+                    //Se agrega el usuario al grupo
                     Grp.Invoke("Add", new object[] { User.Path.ToString() });
                 }
             }
