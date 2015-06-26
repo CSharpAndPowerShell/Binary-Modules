@@ -9,7 +9,7 @@ namespace Group
         private DirectoryEntry User;
         private DirectoryEntry Grp;
         #endregion
-        public void NewUser(string Name, string Password, string Description, string HomeDirDrive, string HomeDirectory, string LoginScript, string Profile, int UserFlags, string Group)
+        public void NewUser(string Name, string Password, string Description, char HomeDirDrive, string HomeDirectory, string LoginScript, string Profile, int UserFlags, string Group)
         {
             try
             {

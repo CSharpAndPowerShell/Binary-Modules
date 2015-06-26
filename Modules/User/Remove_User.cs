@@ -20,14 +20,7 @@ namespace Group
         }
         protected override void ProcessRecord()
         {
-            try
-            {
-                RU.RemoveUser(Name);
-            }
-            catch
-            {
-                RU.CloseConn(true, true, false);
-            }
+            RU.RemoveUser(Name);
         }
         protected override void EndProcessing()
         {

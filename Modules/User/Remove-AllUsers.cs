@@ -30,28 +30,21 @@ namespace Group
         }
         protected override void ProcessRecord()
         {
-            try
+            SelectQuery Query = new SelectQuery("Win32_UserAccount");
+            ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
+            foreach (ManagementObject User in Searcher.Get())
             {
-                SelectQuery Query = new SelectQuery("Win32_UserAccount");
-                ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
-                foreach (ManagementObject User in Searcher.Get())
+                if (All)
                 {
-                    if (All)
-                    {
-                        if ((!(ExcludeCollection.Contains(User["Name"]))))
-                        {
-                            RU.RemoveUser(User["Name"].ToString());
-                        }
-                    }
-                    else if ((!(ExcludeCollection.Contains(User["Name"]))) && (!(ExcludeDefault.Contains(User["Name"]))))
+                    if ((!(ExcludeCollection.Contains(User["Name"].ToString()))))
                     {
                         RU.RemoveUser(User["Name"].ToString());
                     }
                 }
-            }
-            catch
-            {
-                RU.CloseConn(true, true, false);
+                else if ((!(ExcludeCollection.Contains(User["Name"].ToString()))) && (!(ExcludeDefault.Contains(User["Name"].ToString()))))
+                {
+                    RU.RemoveUser(User["Name"].ToString());
+                }
             }
         }
         protected override void EndProcessing()
