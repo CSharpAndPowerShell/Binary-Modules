@@ -18,15 +18,19 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
+            //Abre conexión al DirectoryService
             AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
         }
         protected override void ProcessRecord()
         {
             try
             {
-                //Se elimina el usuario
+                //Se busca que el usuario exista y se carga en el objeto
                 User = AD.Children.Find(Name, "user");
-                AD.Children.Remove(User);
+                if (User != null) {
+                    //Si el usuario existe se elimina
+                    AD.Children.Remove(User);
+                }
             }
             catch (System.Exception)
             {
