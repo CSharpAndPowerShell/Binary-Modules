@@ -1,49 +1,36 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
-using System.DirectoryServices;
+
 namespace Group
 {
     [Cmdlet(VerbsCommon.Remove, "Group")]
     public class Remove_User : Cmdlet
     {
+        #region Objects
+        private GroupCommon RG;
+        #endregion
         #region Parameters
-        [Parameter(Position = 0,
-            Mandatory = true,
-            ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre del grupo a eliminar.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del grupo a eliminar.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion
-        #region Objects
-        private DirectoryEntry AD;
-        private DirectoryEntry Group;
-        #endregion
         protected override void BeginProcessing()
         {
-            AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
+            RG = new GroupCommon();
         }
         protected override void ProcessRecord()
         {
             try
             {
-                //Se elimina el usuario
-                Group = AD.Children.Find(Name, "group");
-                AD.Children.Remove(Group);
+                RG.RemoveGroup(Name);
             }
-            catch (System.Exception)
+            catch
             {
-                //Cerrando conexiones
-                AD.Close();
-                //Cerrar conexion hacia el usuario
-                Group.Close();
+                RG.CloseConn(true, false, true);
             }
         }
         protected override void EndProcessing()
         {
-            //Cerrando conexiones
-            AD.Close();
-            //Cerrar conexion hacia el usuario
-            Group.Close();
+            RG.CloseConn(true, false, true);
         }
     }
 }
