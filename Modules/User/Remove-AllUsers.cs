@@ -3,13 +3,13 @@ using System.DirectoryServices;
 using System.Management;
 using System.Linq;
 
-namespace User
+namespace Group
 {
     [Cmdlet(VerbsCommon.Remove, "AllUsers")]
     public class Remove_AllUsers : Cmdlet
     {
         #region Objects
-        private DirectoryEntry AD;
+        private UserCommon RU;
         private string[] ExcludeCollection = { "" };
         private string[] ExcludeDefault = { "Administrador", "uno", "Invitado", "DefaultAccount" };
         #endregion
@@ -26,33 +26,37 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
-            //Abre conexión al DirectoryService
-            AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
+            RU = new UserCommon();
         }
         protected override void ProcessRecord()
         {
             try
             {
-                SelectQuery query = new SelectQuery("Win32_UserAccount");
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-                foreach (ManagementObject user in searcher.Get())
+                SelectQuery Query = new SelectQuery("Win32_UserAccount");
+                ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
+                foreach (ManagementObject User in Searcher.Get())
                 {
-                    if ((!(ExcludeCollection.Contains(user["Name"]))) && (!(ExcludeDefault.Contains(user["Name"]))))
+                    if (All)
                     {
-                        AD.Children.Remove(AD.Children.Find(user.ToString(), "user"));
+                        if ((!(ExcludeCollection.Contains(User["Name"]))))
+                        {
+                            RU.RemoveUser(User["Name"].ToString());
+                        }
+                    }
+                    else if ((!(ExcludeCollection.Contains(User["Name"]))) && (!(ExcludeDefault.Contains(User["Name"]))))
+                    {
+                        RU.RemoveUser(User["Name"].ToString());
                     }
                 }
             }
-            catch (System.Exception)
+            catch
             {
-                //Cerrando conexiones
-                AD.Close();
+                RU.CloseConn(true, true, false);
             }
         }
         protected override void EndProcessing()
         {
-            //Cerrando conexiones
-            AD.Close();
+            RU.CloseConn(true, true, false);
         }
         #endregion
     }

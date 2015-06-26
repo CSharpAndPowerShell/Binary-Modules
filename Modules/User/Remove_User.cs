@@ -1,51 +1,37 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
-using System.DirectoryServices;
 
-namespace User
+namespace Group
 {
     [Cmdlet(VerbsCommon.Remove, "User")]
     public class Remove_User : Cmdlet
     {
+        #region Objects
+        private UserCommon RU;
+        #endregion
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del usuario a eliminar.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion
-        #region Objects
-        private DirectoryEntry AD;
-        private DirectoryEntry User;
-        #endregion
         #region Methods
         protected override void BeginProcessing()
         {
-            //Abre conexión al DirectoryService
-            AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
+            RU = new UserCommon();
         }
         protected override void ProcessRecord()
         {
             try
             {
-                //Se busca que el usuario exista y se carga en el objeto
-                User = AD.Children.Find(Name, "user");
-                if (User != null) {
-                    //Si el usuario existe se elimina
-                    AD.Children.Remove(User);
-                }
+                RU.RemoveUser(Name);
             }
-            catch (System.Exception)
+            catch
             {
-                //Cerrando conexiones
-                AD.Close();
-                //Cerrar conexion hacia el usuario
-                User.Close();
+                RU.CloseConn(true, true, false);
             }
         }
         protected override void EndProcessing()
         {
-            //Cerrando conexiones
-            AD.Close();
-            //Cerrar conexion hacia el usuario
-            User.Close();
+            RU.CloseConn(true, true, false);
         }
         #endregion
     }
