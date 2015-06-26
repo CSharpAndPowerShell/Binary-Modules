@@ -19,8 +19,7 @@ namespace Group
         [Parameter(Position = 2, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Descripción del nuevo usuario.")]
         public string Description { get; set; }
         [Parameter(Position = 3, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Letra en la que se montará el 'HomeDirectory'.")]
-        [ValidateLength(1, 1)]
-        public string HomeDirDrive { get; set; }
+        public char HomeDirDrive { get; set; }
         [Parameter(Position = 4, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Carpeta personal del nuevo usuario.")]
         public string HomeDirectory { get; set; }
         [Parameter(Position = 5, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Script de inicio de sesión para el nuevo usuario.")]
@@ -39,14 +38,7 @@ namespace Group
         }
         protected override void ProcessRecord()
         {
-            try
-            {
-                NU.NewUser(Name,Password,Description, HomeDirDrive, HomeDirectory, LoginScript, Profile, UserFlags, Group);
-            }
-            catch
-            {
-                NU.CloseConn(true, true, true);
-            }
+            NU.NewUser(Name,Password,Description, HomeDirDrive, HomeDirectory, LoginScript, Profile, UserFlags, Group);
         }
         protected override void EndProcessing()
         {
