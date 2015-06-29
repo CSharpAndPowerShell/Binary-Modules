@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User", "User\User.csproj", "{AC23E259-DC01-483C-965D-C82CA15EF3D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group", "Group\Group.csproj", "{47B99D3B-6C56-4AC8-98DE-B0C46644BC64}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Share", "Share\Share.vbproj", "{4723B70A-82B6-4266-AC42-8B6925362E1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{47B99D3B-6C56-4AC8-98DE-B0C46644BC64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47B99D3B-6C56-4AC8-98DE-B0C46644BC64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47B99D3B-6C56-4AC8-98DE-B0C46644BC64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4723B70A-82B6-4266-AC42-8B6925362E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4723B70A-82B6-4266-AC42-8B6925362E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4723B70A-82B6-4266-AC42-8B6925362E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4723B70A-82B6-4266-AC42-8B6925362E1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
