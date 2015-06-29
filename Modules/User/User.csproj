@@ -7,7 +7,7 @@
     <ProjectGuid>{AC23E259-DC01-483C-965D-C82CA15EF3D9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Group</RootNamespace>
+    <RootNamespace>User</RootNamespace>
     <AssemblyName>User</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

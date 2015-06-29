@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace Group
+namespace User
 {
     [Cmdlet(VerbsCommon.New, "Group")]
     public class New_User : Cmdlet
@@ -15,7 +15,7 @@ namespace Group
         public string Name { get; set; }
         [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Descripción del nuevo grupo.")]
         public string Description { get; set; }
-        #endregion     
+        #endregion
         #region Methods
         protected override void BeginProcessing()
         {
@@ -27,14 +27,14 @@ namespace Group
             {
                 NG.NewGroup(Name, Description);
             }
-            catch
+            catch (PSInvalidOperationException e)
             {
-                NG.CloseConn(true, false, true);
+                WriteError(e.ErrorRecord);
             }
         }
         protected override void EndProcessing()
         {
-            NG.CloseConn(true, false, true);
+            NG.CloseConn();
         }
         #endregion
     }

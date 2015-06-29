@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace Group
+namespace User
 {
     //Define el nombre del Cmdlet
     [Cmdlet(VerbsCommon.New, "User")]
@@ -38,11 +38,18 @@ namespace Group
         }
         protected override void ProcessRecord()
         {
-            NU.NewUser(Name,Password,Description, HomeDirDrive, HomeDirectory, LoginScript, Profile, UserFlags, Group);
+            try
+            {
+                NU.NewUser(Name, Password, Description, HomeDirDrive, HomeDirectory, LoginScript, Profile, UserFlags, Group);
+            }
+            catch (PSInvalidOperationException e)
+            {
+                WriteError(e.ErrorRecord);
+            }
         }
         protected override void EndProcessing()
         {
-            NU.CloseConn(true, true, true);
+            NU.CloseConn();
         }
         #endregion
     }

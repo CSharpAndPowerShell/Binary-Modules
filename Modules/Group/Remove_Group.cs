@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace Group
+namespace User
 {
     [Cmdlet(VerbsCommon.Remove, "Group")]
     public class Remove_User : Cmdlet
@@ -13,6 +13,7 @@ namespace Group
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion
+        #region Methods
         protected override void BeginProcessing()
         {
             RG = new GroupCommon();
@@ -23,14 +24,15 @@ namespace Group
             {
                 RG.RemoveGroup(Name);
             }
-            catch
+            catch (PSInvalidOperationException e)
             {
-                RG.CloseConn(true, false, true);
+                WriteError(e.ErrorRecord);
             }
         }
         protected override void EndProcessing()
         {
-            RG.CloseConn(true, false, true);
+            RG.CloseConn();
         }
+        #endregion
     }
 }

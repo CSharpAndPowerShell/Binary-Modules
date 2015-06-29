@@ -1,6 +1,6 @@
 ﻿using System.DirectoryServices;
 
-namespace Group
+namespace User
 {
     class GroupCommon
     {
@@ -27,54 +27,39 @@ namespace Group
             }
             catch
             {
-                CloseConn(true, false, true);
+                CloseConn();
             }
         }
         public void AddToGroup(string Name, string Grp)
         {
-            try
+            //Se apunta al usuario
+            User = AD.Children.Find(Name, "user");
+            //Se apunta al grupo
+            Group = AD.Children.Find(Grp, "group");
+            if (Group != null && User != null)
             {
-                //Se apunta al usuario
-                User = AD.Children.Find(Name, "user");
-                //Se apunta al grupo
-                Group = AD.Children.Find(Grp, "group");
-                if (Group != null && User != null)
-                {
-                    Group.Invoke("Add", new object[] { User.Path.ToString() });
-                }
-            }
-            catch
-            {
-                CloseConn(true, true, true);
+                Group.Invoke("Add", new object[] { User.Path.ToString() });
             }
         }
         public void RemoveGroup(string Name)
         {
-            try
-            {
-                //Se elimina el grupo
-                Group = AD.Children.Find(Name, "group");
-                AD.Children.Remove(Group);
-            }
-            catch
-            {
-                CloseConn(true, false, true);
-            }
+            Group = AD.Children.Find(Name, "group");
+            AD.Children.Remove(Group);
         }
-        public void CloseConn(bool _AD, bool _User, bool _Group)
+        public void CloseConn()
         {
             //Cerrando conexiones
-            if (_AD)
+            if (AD != null)
             {
                 //Cierra conexión a DirectoryService
                 AD.Close();
             }
-            if (_User)
+            if (User != null)
             {
                 //Cerrar conexion hacia el usuario
                 User.Close();
             }
-            if (_Group)
+            if (Group != null)
             {
                 //Cerrar conexion hacia el grupo
                 Group.Close();

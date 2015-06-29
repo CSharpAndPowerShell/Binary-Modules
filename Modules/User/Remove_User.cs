@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace Group
+namespace User
 {
     [Cmdlet(VerbsCommon.Remove, "User")]
     public class Remove_User : Cmdlet
@@ -20,11 +20,18 @@ namespace Group
         }
         protected override void ProcessRecord()
         {
-            RU.RemoveUser(Name);
+            try
+            {
+                RU.RemoveUser(Name);
+            }
+            catch (PSInvalidOperationException e)
+            {
+                WriteError(e.ErrorRecord);
+            }
         }
         protected override void EndProcessing()
         {
-            RU.CloseConn(true, true, false);
+            RU.CloseConn();
         }
         #endregion
     }

@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace Group
+namespace User
 {
     [Cmdlet(VerbsCommon.Add, "ToGroup")]
     public class Add_ToGroup : Cmdlet
@@ -17,7 +17,7 @@ namespace Group
         [ValidateNotNullOrEmpty]
         public string Group { get; set; }
         #endregion
-        
+        #region Methods
         protected override void BeginProcessing()
         {
             ATG = new GroupCommon();
@@ -28,14 +28,15 @@ namespace Group
             {
                 ATG.AddToGroup(Name, Group);
             }
-            catch
+            catch (PSInvalidOperationException e)
             {
-                ATG.CloseConn(true, false, true);
+                WriteError(e.ErrorRecord);
             }
         }
         protected override void EndProcessing()
         {
-            ATG.CloseConn(true, true, true);
+            ATG.CloseConn();
         }
+        #endregion
     }
 }
