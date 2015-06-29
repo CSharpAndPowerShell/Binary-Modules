@@ -3,25 +3,23 @@ using System.DirectoryServices;
 using System.Management;
 using System.Linq;
 
-namespace Group
+namespace User
 {
     [Cmdlet(VerbsCommon.Remove, "AllUsers")]
     public class Remove_AllUsers : Cmdlet
     {
         #region Objects
         private UserCommon RU;
-        private string[] ExcludeCollection = { "" };
-        private string[] ExcludeDefault = { "Administrador", "uno", "Invitado", "DefaultAccount" };
+        private string[] ExcludeCollection;
+        private string[] ExcludeDefault = { "Administrator", "Administrador", "Invitado", "Guest", "DefaultAccount" };
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de los usuarios a excluir.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de los usuarios a excluir.")]
         public string[] Exclude
         {
             get { return ExcludeCollection; }
             set { ExcludeCollection = value; }
         }
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del usuario a eliminar.")]
-        public bool All { get; set; }
         #endregion
         #region Methods
         protected override void BeginProcessing()
@@ -30,26 +28,18 @@ namespace Group
         }
         protected override void ProcessRecord()
         {
-            SelectQuery Query = new SelectQuery("Win32_UserAccount");
-            ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
-            foreach (ManagementObject User in Searcher.Get())
+            try
             {
-                if (All)
-                {
-                    if ((!(ExcludeCollection.Contains(User["Name"].ToString()))))
-                    {
-                        RU.RemoveUser(User["Name"].ToString());
-                    }
-                }
-                else if ((!(ExcludeCollection.Contains(User["Name"].ToString()))) && (!(ExcludeDefault.Contains(User["Name"].ToString()))))
-                {
-                    RU.RemoveUser(User["Name"].ToString());
-                }
+                RU.RemoveAllUsers(ExcludeDefault, ExcludeCollection);
+            }
+            catch (PSInvalidOperationException e)
+            {
+                WriteError(e.ErrorRecord);
             }
         }
         protected override void EndProcessing()
         {
-            RU.CloseConn(true, true, false);
+            RU.CloseConn();
         }
         #endregion
     }
