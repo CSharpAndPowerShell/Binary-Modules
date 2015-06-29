@@ -9,7 +9,7 @@ namespace User
     public class Remove_AllUsers : Cmdlet
     {
         #region Objects
-        private UserCommon RU;
+        private UserCommon RAU;
         private string[] ExcludeCollection;
         private string[] ExcludeDefault = { "Administrator", "Administrador", "Invitado", "Guest", "DefaultAccount" };
         #endregion
@@ -24,13 +24,13 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
-            RU = new UserCommon();
+            RAU = new UserCommon();
         }
         protected override void ProcessRecord()
         {
             try
             {
-                RU.RemoveAllUsers(ExcludeDefault, ExcludeCollection);
+                RAU.RemoveAllUsers(ExcludeDefault, ExcludeCollection);
             }
             catch (PSInvalidOperationException e)
             {
@@ -39,7 +39,7 @@ namespace User
         }
         protected override void EndProcessing()
         {
-            RU.CloseConn();
+            RAU.CloseConn();
         }
         #endregion
     }
