@@ -1,17 +1,14 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
-using System.DirectoryServices;
-using System.Management;
-using System.Linq;
 
-namespace User
+namespace Share
 {
-    [Cmdlet(VerbsCommon.Remove, "AllUsers")]
-    public class Remove_AllUsers : Cmdlet
+    [Cmdlet(VerbsCommon.Remove, "AllShares")]
+    class Remove_AllShares : Cmdlet
     {
         #region Objects
-        private UserCommon RAU;
+        private ShareCommon RAS;
         private string[] ExcludeCollection;
-        private string[] ExcludeDefault = { "Administrator", "Administrador", "Invitado", "Guest", "DefaultAccount" };
+        private string[] ExcludeDefault = { "ADMIN$", "C$", "IPC$" };
         #endregion
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de los usuarios a excluir.")]
@@ -24,22 +21,18 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
-            RAU = new UserCommon();
+            RAS = new ShareCommon();
         }
         protected override void ProcessRecord()
         {
             try
             {
-                RAU.RemoveAllUsers(ExcludeDefault, ExcludeCollection);
+                RAS.RemoveAllShares(ExcludeDefault, ExcludeCollection);
             }
             catch (PSInvalidOperationException e)
             {
                 WriteError(e.ErrorRecord);
             }
-        }
-        protected override void EndProcessing()
-        {
-            RAU.CloseConn();
         }
         #endregion
     }

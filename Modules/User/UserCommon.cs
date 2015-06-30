@@ -1,7 +1,6 @@
-﻿using System.DirectoryServices;
+﻿using System.Collections;
+using System.DirectoryServices;
 using System.Management;
-using System.Collections;
-
 
 namespace User
 {
