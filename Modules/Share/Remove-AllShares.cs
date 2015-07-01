@@ -3,7 +3,7 @@
 namespace Share
 {
     [Cmdlet(VerbsCommon.Remove, "AllShares")]
-    class Remove_AllShares : Cmdlet
+    public class Remove_AllShares : Cmdlet
     {
         #region Objects
         private ShareCommon RAS;
@@ -11,7 +11,7 @@ namespace Share
         private string[] ExcludeDefault = { "ADMIN$", "C$", "IPC$" };
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de los usuarios a excluir.")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de los usuarios a excluir.")]
         public string[] Exclude
         {
             get { return ExcludeCollection; }
