@@ -4,10 +4,11 @@ namespace UI
 {
     public class UICommon
     {
-        public void ShowMessageBox(string Message, string Title, string Buttons, string Icon)
+        public string ShowMessageBox(string Message, string Title, string Buttons, string Icon)
         {
             MessageBoxButtons buttons = MessageBoxButtons.OK;
-            switch (Buttons) {
+            switch (Buttons)
+            {
                 case "AbortRetryIgnore":
                     buttons = MessageBoxButtons.AbortRetryIgnore;
                     break;
@@ -64,7 +65,27 @@ namespace UI
                     icon = MessageBoxIcon.None;
                     break;
             }
-            MessageBox.Show(Message, Title, buttons, icon);
+            switch (MessageBox.Show(Message, Title, buttons, icon))
+            {
+                case DialogResult.Abort:
+                    return "Abort";
+                case DialogResult.Cancel:
+                    return "Cancel";
+                case DialogResult.Ignore:
+                    return "Ignore";
+                case DialogResult.No:
+                    return "No";
+                case DialogResult.None:
+                    return null;
+                case DialogResult.OK:
+                    return "OK";
+                case DialogResult.Retry:
+                    return "Retry";
+                case DialogResult.Yes:
+                    return "Yes";
+                default:
+                    return null;
+            }
         }
     }
 }
