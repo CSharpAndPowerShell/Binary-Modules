@@ -3,8 +3,8 @@
 namespace User
 {
     //Define el nombre del Cmdlet
-    [Cmdlet(VerbsCommon.New, "User")]
-    public class New_User : Cmdlet
+    [Cmdlet(VerbsCommon.Set, "User")]
+    public class Set_User : Cmdlet
     {
         #region Objects
         private UserCommon NU;
@@ -40,7 +40,7 @@ namespace User
         {
             try
             {
-                NU.NewUser(false, Name, Password, Description, HomeDirDrive, HomeDirectory, LoginScript, Profile, UserFlags, Group);
+                NU.NewUser(true, Name, Password, Description, HomeDirDrive, HomeDirectory, LoginScript, Profile, UserFlags, Group);
             }
             catch (PSInvalidOperationException e)
             {

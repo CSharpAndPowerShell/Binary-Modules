@@ -10,12 +10,20 @@ namespace User
         private DirectoryEntry AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
         private DirectoryEntry User;
         private DirectoryEntry Grp;
+        private Common.Common CC = new Common.Common();
         #endregion
         #region Methods
-        public void NewUser(string Name, string Password, string Description, char HomeDirDrive, string HomeDirectory, string LoginScript, string Profile, int UserFlags, string Group)
+        public void NewUser(bool Exist,string Name, string Password, string Description, char HomeDirDrive, string HomeDirectory, string LoginScript, string Profile, int UserFlags, string Group)
         {
             //Se crea el objeto del usuario
-            User = AD.Children.Add(Name, "user");
+            if (Exist)
+            {
+                User = AD.Children.Find(Name, "user");
+            }
+            else
+            {
+                User = AD.Children.Add(Name, "user");
+            }
             //Los siguientes if validan si la variable no esta vacía, de ser así se aplican las propiedades
             if (Password != null)
             {
@@ -55,12 +63,9 @@ namespace User
             //Aplicando los cambios
             User.CommitChanges();
             //Asignar a un grupo
-            if (Group != null) {
-                Grp = AD.Children.Find(Group, "group");
-                if (Grp != null)
-                {
-                    Grp.Invoke("Add", new object[] { User.Path.ToString() });
-                }
+            if (Group != null)
+            {
+                CC.AddToGroup(Name, Group);
             }
         }
         public void RemoveUser(string Name)
@@ -95,7 +100,6 @@ namespace User
             }
             return Users;
         }
-
         public void RemoveAllUsers(string[] Default, string[] Custom)
         {
             ArrayList Users = GetUsers(Default, Custom);
@@ -106,17 +110,9 @@ namespace User
         }
         public void CloseConn()
         {
-            //Cerrando conexiones
-            if (AD != null)
-            {
-                //Cierra conexión a DirectoryService
-                AD.Close();
-            }
-            if (User != null)
-            {
-                //Cerrar conexion hacia el usuario
-                User.Close();
-            }
+            CC.CloseConn(AD);
+            CC.CloseConn(User);
+            CC.CloseConn(Grp);
         }
         #endregion
     }

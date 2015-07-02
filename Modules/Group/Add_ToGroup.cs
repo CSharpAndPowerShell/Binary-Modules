@@ -11,7 +11,6 @@ namespace User
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del nuevo usuario.")]
         [ValidateNotNullOrEmpty]
-        [ValidateLength(1, 14)]
         public string Name { get; set; }
         [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Grupo al que pertenecerá el nuevo usuario.")]
         [ValidateNotNullOrEmpty]
