@@ -141,7 +141,7 @@ namespace Share
                     break;
             }
             //Aplicando cambios
-            dSecurity.AddAccessRule(new FileSystemAccessRule(User, FSR, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.None, ACT));
+            dSecurity.AddAccessRule(new FileSystemAccessRule(User, FSR, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, ACT));
             dInfo.SetAccessControl(dSecurity);
         }
         public void AddSharePermission(string Sharename, string User, string Access)

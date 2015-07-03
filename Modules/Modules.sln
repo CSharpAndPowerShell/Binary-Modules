@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{4BCEDD93-AF14-4DA7-A46B-4AE0C9B68570}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkDrive", "NetworkDrive\NetworkDrive.csproj", "{7D6C6AD2-1C6A-4499-9A15-58B24C3421BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{4BCEDD93-AF14-4DA7-A46B-4AE0C9B68570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BCEDD93-AF14-4DA7-A46B-4AE0C9B68570}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BCEDD93-AF14-4DA7-A46B-4AE0C9B68570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D6C6AD2-1C6A-4499-9A15-58B24C3421BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D6C6AD2-1C6A-4499-9A15-58B24C3421BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D6C6AD2-1C6A-4499-9A15-58B24C3421BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D6C6AD2-1C6A-4499-9A15-58B24C3421BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
