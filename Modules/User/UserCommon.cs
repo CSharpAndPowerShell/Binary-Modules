@@ -9,7 +9,6 @@ namespace User
         #region Objects
         private DirectoryEntry AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
         private DirectoryEntry User;
-        private DirectoryEntry Grp;
         private Common.Common CC = new Common.Common();
         #endregion
         #region Methods
@@ -112,7 +111,6 @@ namespace User
         {
             CC.CloseConn(AD);
             CC.CloseConn(User);
-            CC.CloseConn(Grp);
         }
         #endregion
     }
