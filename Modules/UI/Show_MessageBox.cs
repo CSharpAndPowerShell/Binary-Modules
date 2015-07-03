@@ -30,7 +30,7 @@ namespace UI
         {
             try
             {
-                SMB.ShowMessageBox(Message, Title, Buttons, Icon);
+                WriteObject(SMB.ShowMessageBox(Message, Title, Buttons, Icon));
             }
             catch (PSInvalidOperationException e)
             {
