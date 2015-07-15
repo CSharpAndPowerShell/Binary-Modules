@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drive", "Drive\Drive.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoStart", "AutoStart\AutoStart.csproj", "{1998CE12-E1B1-4422-BA9A-AB21B252DBB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAC", "UAC\UAC.csproj", "{F5DD2950-2A33-49E3-832B-ACE68E495713}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{1998CE12-E1B1-4422-BA9A-AB21B252DBB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1998CE12-E1B1-4422-BA9A-AB21B252DBB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1998CE12-E1B1-4422-BA9A-AB21B252DBB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5DD2950-2A33-49E3-832B-ACE68E495713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5DD2950-2A33-49E3-832B-ACE68E495713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5DD2950-2A33-49E3-832B-ACE68E495713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5DD2950-2A33-49E3-832B-ACE68E495713}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
