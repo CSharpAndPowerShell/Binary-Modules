@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoStartCommon.cs" />
+    <Compile Include="Get_AutoStart.cs" />
     <Compile Include="Remove_AutoStart.cs" />
     <Compile Include="New_AutoStartOnce.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

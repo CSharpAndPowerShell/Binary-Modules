@@ -9,16 +9,14 @@ namespace UAC
         private UACCommon SUAC;
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Valor boleano de la propiedad.")]
-        [ValidateNotNullOrEmpty]
+        [Parameter(Position = 0, Mandatory = false, HelpMessage = "Valor boleano de la propiedad.")]
         public SwitchParameter Enable
         {
             get { return enable; }
             set { enable = value; }
         }
         private bool enable;
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Valor boleano de la propiedad.")]
-        [ValidateNotNullOrEmpty]
+        [Parameter(Position = 0, Mandatory = false, HelpMessage = "Valor boleano de la propiedad.")]
         public SwitchParameter Disable
         {
             get { return disable; }
