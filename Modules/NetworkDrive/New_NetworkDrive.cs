@@ -19,6 +19,8 @@ namespace NetworkDrive
         public string User { get; set; }
         [Parameter(Position = 3, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Contraseña del usuario.")]
         public string Password { get; set; }
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de la nueva unidad.")]
+        public string Name { get; set; }
         #endregion
         #region Methods
         protected override void BeginProcessing()
@@ -29,7 +31,7 @@ namespace NetworkDrive
         {
             try
             {
-                NND.NewNetworkDrive(Letter, Path, User, Password);
+                NND.NewNetworkDrive(Letter, Path, User, Password, Name);
             }
             catch (PSInvalidOperationException e)
             {
