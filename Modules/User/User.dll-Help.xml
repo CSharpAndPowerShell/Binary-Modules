@@ -230,6 +230,13 @@
 				</maml:description>
 			</command:inputType>
 		</command:inputTypes>
+		<maml:relatedLinks>
+			<maml:navigationLink>
+				<maml:linkText>Repositorio Git-Hub:</maml:linkText>
+				<maml:uri>https://github.com/CSharpAndPowerShell/Binary-Modules</maml:uri>
+			</maml:navigationLink>
+			<!-- Links-->
+		</maml:relatedLinks>
 	</command:command>
 	<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 		<!-- Command-->
@@ -575,6 +582,13 @@ Se deben de sumar los valores para combinar propiedades.</maml:para>
 				</maml:description>
 			</command:inputType>
 		</command:inputTypes>
+		<maml:relatedLinks>
+			<maml:navigationLink>
+				<maml:linkText>Repositorio Git-Hub:</maml:linkText>
+				<maml:uri>https://github.com/CSharpAndPowerShell/Binary-Modules</maml:uri>
+			</maml:navigationLink>
+			<!-- Links-->
+		</maml:relatedLinks>
 	</command:command>
 	<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 		<!-- Command-->
