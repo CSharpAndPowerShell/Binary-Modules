@@ -9,17 +9,17 @@ namespace AutoLogin
         private AutoLoginCommon SAL;
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Valor boleano de la propiedad.")]
+        [Parameter(Position = 0, HelpMessage = "Deshabilitar el Autologin.")]
         public SwitchParameter Disable
         {
             get { return disable; }
             set { disable = value; }
         }
         private bool disable;
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de la nueva propiedad del registro.")]
+        [Parameter(Position = 0, HelpMessage = "Nombre del usuario a iniciar sesión automáticamente.")]
         [ValidateNotNullOrEmpty]
         public string User { get; set; }
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Valor de la propiedad, en este caso ruta al ejecutable.")]
+        [Parameter(Position = 1, HelpMessage = "Contraseña del usuario a iniciar sesión automáticamente.")]
         public string Password { get; set; }
         #endregion
         #region Methods
@@ -39,6 +39,10 @@ namespace AutoLogin
                 {
                     SAL.SetAutoLogin(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "AutoAdminLogon", "1");
                     SAL.SetAutoLogin(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "DefaultUsername", User);
+                    if (Password == null)
+                    {
+                        Password = "";
+                    }
                     SAL.SetAutoLogin(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "DefaultPassword", Password);
                 }
             }
