@@ -10,8 +10,17 @@ namespace Share
     {
         private ManagementClass MC = new ManagementClass("win32_share");
         private ManagementObject Share;
+        private void TestDir(string Path)
+        {
+            //Comprueba la existencia del directorio, si no existe lo crea
+            if (!Directory.Exists(Path))
+            {
+                Directory.CreateDirectory(Path);
+            }
+        }
         public void NewShare(string Sharename, string Path, string User, string Access, string Right, string ACL, string Description)
         {
+            TestDir(Path);
             //Sharing folder
             ManagementBaseObject inParams = MC.GetMethodParameters("Create");
             inParams["Description"] = Description;
@@ -45,6 +54,7 @@ namespace Share
         }
         public void NewACE(string Path, string User, string Right, string ACL)
         {
+            TestDir(Path);
             //Control de Acceso (Permisos NTFS)
             //Objetos
             DirectoryInfo dInfo = new DirectoryInfo(Path);
