@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using System.Management;
 using System.Security.AccessControl;
@@ -50,7 +51,7 @@ namespace Share
                 }
             }
             NewACE(Path, User, Right, ACL);
-            AddSharePermission(Sharename, User, Access);
+            AddSharePermissions(Sharename, User, Access);
         }
         public void NewACE(string Path, string User, string Right, string ACL)
         {
@@ -154,45 +155,59 @@ namespace Share
             dSecurity.AddAccessRule(new FileSystemAccessRule(User, FSR, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, ACT));
             dInfo.SetAccessControl(dSecurity);
         }
-        public void AddSharePermission(string Sharename, string User, string Access)
+        public void AddSharePermissions(string Sharename, string User, string Access)
         {
             //Agrega permisos a carpetas compartidas
             //User
             NTAccount ntAccount = new NTAccount(User);
             //SID
             SecurityIdentifier userSID = (SecurityIdentifier)ntAccount.Translate(typeof(SecurityIdentifier));
-            byte[] utenteSIDArray = new byte[userSID.BinaryLength];
-            userSID.GetBinaryForm(utenteSIDArray, 0);
+            byte[] SIDArray = new byte[userSID.BinaryLength];
+            userSID.GetBinaryForm(SIDArray, 0);
             //Trustee
-            ManagementObject userTrustee = new ManagementClass(new ManagementPath("Win32_Trustee"), null);
-            userTrustee["Name"] = User;
-            userTrustee["SID"] = utenteSIDArray;
+            ManagementObject Trustee = new ManagementClass(new ManagementPath("Win32_Trustee"), null);
+            Trustee["Name"] = User;
+            Trustee["SID"] = SIDArray;
             //ACE
-            ManagementObject userACE = new ManagementClass(new ManagementPath("Win32_Ace"), null);
+            ManagementObject ACE = new ManagementClass(new ManagementPath("Win32_Ace"), null);
             switch (Access)
             {
                 case "Read":
-                    userACE["AccessMask"] = 1179817; //Read
+                    ACE["AccessMask"] = 1179817; //Read
                     break;
                 case "Change":
-                    userACE["AccessMask"] = 1245631; //Change
+                    ACE["AccessMask"] = 1245631; //Change
                     break;
                 case "FullControl":
-                    userACE["AccessMask"] = 2032127; //FullControl
+                    ACE["AccessMask"] = 2032127; //FullControl
                     break;
                 default:
-                    userACE["AccessMask"] = 1179817; //Read
+                    ACE["AccessMask"] = 1179817; //Read
                     break;
             }
-            userACE["AceFlags"] = AceFlags.ObjectInherit | AceFlags.ContainerInherit;
-            userACE["AceType"] = AceType.AccessAllowed;
-            userACE["Trustee"] = userTrustee;
-            ManagementObject userSecurityDescriptor = new ManagementClass(new ManagementPath("Win32_SecurityDescriptor"), null);
-            userSecurityDescriptor["ControlFlags"] = 4; //SE_DACL_PRESENT 
-            userSecurityDescriptor["DACL"] = new object[] { userACE };
+            ACE["AceFlags"] = AceFlags.ObjectInherit | AceFlags.ContainerInherit;
+            ACE["AceType"] = AceType.AccessAllowed;
+            ACE["Trustee"] = Trustee;
+            //Obteniendo permisos actuales
+            ManagementObject Win32LogicalSecuritySetting = new ManagementObject(@"\\localhost\root\cimv2:Win32_LogicalShareSecuritySetting.Name='" + Sharename + "'");
+            ManagementBaseObject Return = Win32LogicalSecuritySetting.InvokeMethod("GetSecurityDescriptor", null, null);
+            ManagementBaseObject SecurityDescriptor = Return.Properties["Descriptor"].Value as ManagementBaseObject;
+            ManagementBaseObject[] DACL = SecurityDescriptor["DACL"] as ManagementBaseObject[];
+            if (DACL == null)
+            {
+                DACL = new ManagementBaseObject[] { ACE };
+            }
+            else
+            {
+                //Se agregan los permisos adicionales
+                Array.Resize(ref DACL, DACL.Length + 1);
+                DACL[DACL.Length - 1] = ACE;
+            }
+            SecurityDescriptor["DACL"] = DACL;
+            SecurityDescriptor["ControlFlags"] = 4; //SE_DACL_PRESENT
             //Actualizando permisos
             Share = new ManagementObject(MC.Path + ".Name='" + Sharename + "'");
-            Share.InvokeMethod("SetShareInfo", new object[] { null, null, userSecurityDescriptor });
+            Share.InvokeMethod("SetShareInfo", new object[] { null, null, SecurityDescriptor });
         }
         public void RemoveShare(string Sharename)
         {

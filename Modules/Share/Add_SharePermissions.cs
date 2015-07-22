@@ -29,7 +29,7 @@ namespace Share
         {
             try
             {
-                ASP.AddSharePermission(Sharename,User,Access);
+                ASP.AddSharePermissions(Sharename,User,Access);
             }
             catch (PSInvalidOperationException e)
             {
