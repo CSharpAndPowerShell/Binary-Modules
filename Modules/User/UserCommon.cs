@@ -9,10 +9,11 @@ namespace User
         #region Objects
         private DirectoryEntry AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
         private DirectoryEntry User;
-        private Common.Common CC = new Common.Common();
+        private DirectoryEntry Group;
         #endregion
         #region Methods
-        public void NewUser(bool Exist,string Name, string Password, string Description, char HomeDirDrive, string HomeDirectory, string LoginScript, string Profile, int UserFlags, string Group)
+        #region Users
+        public void NewUser(bool Exist, string Name, string Password, string Description, char HomeDirDrive, string HomeDirectory, string LoginScript, string Profile, int UserFlags, string Group)
         {
             //Se crea el objeto del usuario
             if (Exist)
@@ -64,7 +65,7 @@ namespace User
             //Asignar a un grupo
             if (Group != null)
             {
-                CC.AddToGroup(Name, Group);
+                AddToGroup(Name, Group);
             }
         }
         public void RemoveUser(string Name)
@@ -77,7 +78,7 @@ namespace User
                 AD.Children.Remove(User);
             }
         }
-        public ArrayList GetUsers(string[] Default = null, string[] Custom = null)
+        private ArrayList GetUsers(string[] Default = null, string[] Custom = null)
         {
             SelectQuery Query = new SelectQuery("Win32_UserAccount");
             ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
@@ -107,10 +108,69 @@ namespace User
                 RemoveUser(User);
             }
         }
+        #endregion
+        #region Groups
+        public ArrayList GetGroups()
+        {
+            SelectQuery Query = new SelectQuery("Win32_Group");
+            ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
+            ArrayList Groups = new ArrayList();
+            foreach (ManagementObject User in Searcher.Get())
+            {
+                Groups.Add(User["Name"].ToString());
+            }
+            return Groups;
+        }
+        public void AddToGroup(string Name, string Grp)
+        {
+            //Se apunta al usuario
+            User = AD.Children.Find(Name, "user");
+            //Se apunta al grupo
+            ArrayList Groups = GetGroups();
+            if (!(Groups.Contains(Grp)))
+            {
+                NewGroup(Grp, "");
+            }
+            Group = AD.Children.Find(Grp, "group");
+            Group.Invoke("Add", new object[] { User.Path.ToString() });
+        }
+        public void NewGroup(string Name, string Description)
+        {
+            //Se crea el grupo
+            Group = AD.Children.Add(Name, "group");
+            //El siguiente if valida si la variable no esta vacía, de ser así se aplican la propiedad
+            if (Description != null)
+            {
+                //Descripción del nuevo grupo
+                Group.Invoke("Put", new object[] { "Description", Description });
+            }
+            //Aplicando los cambios
+            Group.CommitChanges();
+        }
+        public void RemoveGroup(string Name)
+        {
+            Group = AD.Children.Find(Name);
+            AD.Children.Remove(Group);
+        }
+        #endregion
         public void CloseConn()
         {
-            CC.CloseConn(AD);
-            CC.CloseConn(User);
+            //Cerrando conexiones
+            if (AD != null)
+            {
+                //Cierra conexión a DirectoryService
+                AD.Close();
+            }
+            if (AD != null)
+            {
+                //Cierra conexión a DirectoryService
+                User.Close();
+            }
+            if (AD != null)
+            {
+                //Cierra conexión a DirectoryService
+                Group.Close();
+            }
         }
         #endregion
     }

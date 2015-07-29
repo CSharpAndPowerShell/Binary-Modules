@@ -42,11 +42,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DriveCommon.cs" />
+    <Compile Include="New_NetworkDrive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Remove_NetworkDrive.cs" />
     <Compile Include="Set_Drives.cs" />
     <Compile Include="Rename_Drive.cs" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="Shell32">
       <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
       <VersionMajor>1</VersionMajor>

@@ -48,6 +48,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add_ToGroup.cs" />
+    <Compile Include="New_Group.cs" />
+    <Compile Include="Remove_Group.cs" />
     <Compile Include="Set_User.cs" />
     <Compile Include="UserCommon.cs" />
     <Compile Include="New_User.cs" />
@@ -59,12 +62,6 @@
     <Content Include="User.dll-Help.xml">
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{c1167598-9be3-40c9-8b28-f72211dfb57c}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

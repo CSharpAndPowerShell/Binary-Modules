@@ -3,10 +3,10 @@
 namespace User
 {
     [Cmdlet(VerbsCommon.Remove, "Group")]
-    public class Remove_User : Cmdlet
+    public class Remove_Group : Cmdlet
     {
         #region Objects
-        private GroupCommon RG;
+        private UserCommon RG;
         #endregion
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del grupo a eliminar.")]
@@ -16,7 +16,7 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
-            RG = new GroupCommon();
+            RG = new UserCommon();
         }
         protected override void ProcessRecord()
         {

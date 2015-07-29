@@ -1,12 +1,12 @@
 ﻿using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace NetworkDrive
+namespace Drive
 {
     [Cmdlet(VerbsCommon.New, "NetworkDrive")]
     public class New_NetworkDrive : Cmdlet
     {
         #region Objects
-        private NetworkDriveCommon NND;
+        private DriveCommon NND;
         #endregion
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Letra a montar.")]
@@ -25,7 +25,7 @@ namespace NetworkDrive
         #region Methods
         protected override void BeginProcessing()
         {
-            NND = new NetworkDriveCommon();
+            NND = new DriveCommon();
         }
         protected override void ProcessRecord()
         {

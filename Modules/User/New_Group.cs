@@ -3,10 +3,10 @@
 namespace User
 {
     [Cmdlet(VerbsCommon.New, "Group")]
-    public class New_User : Cmdlet
+    public class New_Group : Cmdlet
     {
         #region Objects
-        private GroupCommon NG;
+        private UserCommon NG;
         #endregion
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del nuevo grupo.")]
@@ -19,7 +19,7 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
-            NG = new GroupCommon();
+            NG = new UserCommon();
         }
         protected override void ProcessRecord()
         {

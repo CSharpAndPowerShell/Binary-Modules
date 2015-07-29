@@ -6,7 +6,7 @@ namespace User
     public class Add_ToGroup : Cmdlet
     {
         #region Objects
-        private GroupCommon ATG;
+        private UserCommon ATG;
         #endregion
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del nuevo usuario.")]
@@ -19,7 +19,7 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
-            ATG = new GroupCommon();
+            ATG = new UserCommon();
         }
         protected override void ProcessRecord()
         {

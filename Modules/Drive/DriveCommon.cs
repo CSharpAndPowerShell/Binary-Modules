@@ -1,10 +1,17 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using System;
 
 namespace Drive
 {
     public class DriveCommon
     {
-        public void RenameDrive(char letter, string name) 
+        #region Objects
+        IWshNetwork_Class network = new IWshNetwork_Class();
+        Drive.DriveCommon RD = new Drive.DriveCommon();
+        #endregion
+        #region Methods
+        #region Drive
+        public void RenameDrive(char letter, string name)
         {
             //Renombra unidades locales y de red
             Shell32.Shell shell = new Shell32.Shell();
@@ -42,7 +49,7 @@ namespace Drive
                     {
                         if (drives[i].Equals(Letters[j]))
                         {
-                            value += (int) Math.Pow(2, j);
+                            value += (int)Math.Pow(2, j);
                         }
                     }
                 }
@@ -73,5 +80,28 @@ namespace Drive
                 }
             }
         }
+        #endregion
+        #region NetworkDrive
+        public void NewNetworkDrive(char letter, string path, string user, string password, string name)
+        {
+            if (user != null)
+            {
+                network.MapNetworkDrive(letter + ":", path, Type.Missing, user, password);
+            }
+            else
+            {
+                network.MapNetworkDrive(letter + ":", path);
+            }
+            if (name != null)
+            {
+                RD.RenameDrive(letter, name);
+            }
+        }
+        public void RemoveNetworkDrive(char letter)
+        {
+            network.RemoveNetworkDrive(letter + ":", true);
+        }
+        #endregion
+        #endregion
     }
 }
