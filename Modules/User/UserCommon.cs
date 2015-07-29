@@ -8,8 +8,8 @@ namespace User
     {
         #region Objects
         private DirectoryEntry AD = new DirectoryEntry("WinNT://" + System.Environment.MachineName + ",computer");
-        private DirectoryEntry User;
-        private DirectoryEntry Group;
+        private DirectoryEntry DEUser;
+        private DirectoryEntry DEGroup;
         #endregion
         #region Methods
         #region Users
@@ -18,50 +18,50 @@ namespace User
             //Se crea el objeto del usuario
             if (Exist)
             {
-                User = AD.Children.Find(Name, "user");
+                DEUser = AD.Children.Find(Name, "user");
             }
             else
             {
-                User = AD.Children.Add(Name, "user");
+                DEUser = AD.Children.Add(Name, "user");
             }
             //Los siguientes if validan si la variable no esta vacía, de ser así se aplican las propiedades
             if (Password != null)
             {
                 //Contraseña para la nueva cuenta de usuario
-                User.Invoke("SetPassword", new object[] { Password });
+                DEUser.Invoke("SetPassword", new object[] { Password });
             }
             if (Description != null)
             {
                 //Descripción de la nueva cuenta de usuario
-                User.Invoke("Put", new object[] { "Description", Description });
+                DEUser.Invoke("Put", new object[] { "Description", Description });
             }
             if (HomeDirDrive != '\0') // '\0' es equivalente a null para los char
             {
                 //Letra de la unidad donde se montará la carpeta particular
-                User.Invoke("Put", new object[] { "HomeDirDrive", HomeDirDrive + ":" });
+                DEUser.Invoke("Put", new object[] { "HomeDirDrive", HomeDirDrive + ":" });
             }
             if (HomeDirectory != null)
             {
                 //Carpeta particular del usuario
-                User.Invoke("Put", new object[] { "HomeDirectory", HomeDirectory });
+                DEUser.Invoke("Put", new object[] { "HomeDirectory", HomeDirectory });
             }
             if (LoginScript != null)
             {
                 //Script de inicio de sesión
-                User.Invoke("Put", new object[] { "LoginScript", LoginScript });
+                DEUser.Invoke("Put", new object[] { "LoginScript", LoginScript });
             }
             if (Profile != null)
             {
                 //Perfil móvil
-                User.Invoke("Put", new object[] { "Profile", Profile });
+                DEUser.Invoke("Put", new object[] { "Profile", Profile });
             }
             if (UserFlags != 0)
             {
                 //Propiedades del usuario
-                User.Invoke("Put", new object[] { "UserFlags", UserFlags });
+                DEUser.Invoke("Put", new object[] { "UserFlags", UserFlags });
             }
             //Aplicando los cambios
-            User.CommitChanges();
+            DEUser.CommitChanges();
             //Asignar a un grupo
             if (Group != null)
             {
@@ -71,11 +71,11 @@ namespace User
         public void RemoveUser(string Name)
         {
             //Se busca que el usuario exista y se carga en el objeto
-            User = AD.Children.Find(Name, "user");
-            if (User != null)
+            DEUser = AD.Children.Find(Name, "user");
+            if (DEUser != null)
             {
                 //Si el usuario existe se elimina
-                AD.Children.Remove(User);
+                AD.Children.Remove(DEUser);
             }
         }
         private ArrayList GetUsers(string[] Default = null, string[] Custom = null)
@@ -124,52 +124,49 @@ namespace User
         public void AddToGroup(string Name, string Grp)
         {
             //Se apunta al usuario
-            User = AD.Children.Find(Name, "user");
+            DEUser = AD.Children.Find(Name, "user");
             //Se apunta al grupo
             ArrayList Groups = GetGroups();
             if (!(Groups.Contains(Grp)))
             {
                 NewGroup(Grp, "");
             }
-            Group = AD.Children.Find(Grp, "group");
-            Group.Invoke("Add", new object[] { User.Path.ToString() });
+            DEGroup = AD.Children.Find(Grp, "group");
+            DEGroup.Invoke("Add", new object[] { DEUser.Path.ToString() });
         }
         public void NewGroup(string Name, string Description)
         {
             //Se crea el grupo
-            Group = AD.Children.Add(Name, "group");
+            DEGroup = AD.Children.Add(Name, "group");
             //El siguiente if valida si la variable no esta vacía, de ser así se aplican la propiedad
             if (Description != null)
             {
                 //Descripción del nuevo grupo
-                Group.Invoke("Put", new object[] { "Description", Description });
+                DEGroup.Invoke("Put", new object[] { "Description", Description });
             }
             //Aplicando los cambios
-            Group.CommitChanges();
+            DEGroup.CommitChanges();
         }
         public void RemoveGroup(string Name)
         {
-            Group = AD.Children.Find(Name);
-            AD.Children.Remove(Group);
+            DEGroup = AD.Children.Find(Name);
+            AD.Children.Remove(DEGroup);
         }
         #endregion
         public void CloseConn()
         {
-            //Cerrando conexiones
+            //Cerrando conexiones  a DirectoryService
             if (AD != null)
             {
-                //Cierra conexión a DirectoryService
                 AD.Close();
             }
-            if (AD != null)
+            if (DEUser != null)
             {
-                //Cierra conexión a DirectoryService
-                User.Close();
+                DEUser.Close();
             }
-            if (AD != null)
+            if (DEGroup != null)
             {
-                //Cierra conexión a DirectoryService
-                Group.Close();
+                DEGroup.Close();
             }
         }
         #endregion
