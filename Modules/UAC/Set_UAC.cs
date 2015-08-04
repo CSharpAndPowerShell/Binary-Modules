@@ -44,8 +44,7 @@ namespace UAC
                     {
                         value = 0;
                     }
-                    SUAC.Set_UAC(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA", value);
-                    SUAC.Set_UAC(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "ConsentPromptBehaviorAdmin", value);
+                    SUAC.Set_UAC(value);
                 }
             }
             catch (PSInvalidOperationException e)

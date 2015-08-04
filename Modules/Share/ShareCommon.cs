@@ -9,8 +9,11 @@ namespace Share
 {
     public class ShareCommon
     {
+        #region Objects
         private ManagementClass MC = new ManagementClass("win32_share");
         private ManagementObject Share;
+        #endregion
+        #region Methods
         private void TestDir(string Path)
         {
             //Comprueba la existencia del directorio, si no existe lo crea
@@ -18,6 +21,28 @@ namespace Share
             {
                 Directory.CreateDirectory(Path);
             }
+        }
+        private ArrayList GetShares(string[] Default = null, string[] Custom = null)
+        {
+            SelectQuery Query = new SelectQuery("Win32_Share");
+            ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
+            ArrayList Shares = new ArrayList();
+            foreach (ManagementObject Share in Searcher.Get())
+            {
+                Shares.Add(Share["Name"].ToString());
+            }
+            foreach (var item in Default)
+            {
+                Shares.Remove(item);
+            }
+            if (Custom != null)
+            {
+                foreach (var item in Custom)
+                {
+                    Shares.Remove(item);
+                }
+            }
+            return Shares;
         }
         public void NewShare(string Sharename, string Path, string User, string Access, string Right, string ACL, string Description)
         {
@@ -50,12 +75,16 @@ namespace Share
                         break;
                 }
             }
-            NewACE(Path, User, Right, ACL);
+            NewACE(Path, User, Right, ACL, false);
             AddSharePermissions(Sharename, User, Access);
         }
-        public void NewACE(string Path, string User, string Right, string ACL)
+        public void NewACE(string Path, string User, string Right, string ACL, bool testDir = true)
         {
-            TestDir(Path);
+            //Crea el directorio en caso de que no exista
+            if(testDir)
+            {
+                TestDir(Path);
+            }
             //Control de Acceso (Permisos NTFS)
             //Objetos
             DirectoryInfo dInfo = new DirectoryInfo(Path);
@@ -211,30 +240,10 @@ namespace Share
         }
         public void RemoveShare(string Sharename)
         {
+            //Inicializando el objeto
             Share = new ManagementObject(MC.Path + ".Name='" + Sharename + "'");
+            //Eliminando el recurso compartido
             Share.Delete();
-        }
-        public ArrayList GetShares(string[] Default = null, string[] Custom = null)
-        {
-            SelectQuery Query = new SelectQuery("Win32_Share");
-            ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
-            ArrayList Shares = new ArrayList();
-            foreach (ManagementObject Share in Searcher.Get())
-            {
-                Shares.Add(Share["Name"].ToString());
-            }
-            foreach (var item in Default)
-            {
-                Shares.Remove(item);
-            }
-            if (Custom != null)
-            {
-                foreach (var item in Custom)
-                {
-                    Shares.Remove(item);
-                }
-            }
-            return Shares;
         }
         public void RemoveAllShares(string[] Default, string[] Custom)
         {
@@ -244,5 +253,6 @@ namespace Share
                 RemoveShare(Share);
             }
         }
+        #endregion
     }
 }

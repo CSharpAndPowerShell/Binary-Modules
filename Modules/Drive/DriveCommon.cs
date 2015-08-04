@@ -5,16 +5,24 @@ namespace Drive
 {
     public class DriveCommon
     {
+        #region Objects
+        //Objeto de la clase relacionada con unidades de red
+        private IWshNetwork_Class IWN;
+        //Objeto de la clase relacionada con el ambiente de Windows
+        private Shell32.Shell shell;
+        #endregion
         #region Methods
         #region Drive
         public void RenameDrive(char letter, string name)
         {
+            //Inicialización del objeto
+            shell = new Shell32.Shell();
             //Renombra unidades locales y de red
-            Shell32.Shell shell = new Shell32.Shell();
             ((Shell32.Folder2)shell.NameSpace(letter + ":")).Self.Name = name;
         }
         public void SetDrives(string[] drives, bool nodrives, bool noviewondrive, bool disable)
         {
+            //Establece valores que oculta o bloquea unidades de red
             Microsoft.Win32.RegistryKey RegKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\Currentversion\Policies", true);
             if (disable)
             {
@@ -30,8 +38,16 @@ namespace Drive
                 }
                 else
                 {
-                    RegKey.DeleteValue("NoDrives");
-                    RegKey.DeleteValue("NoViewOnDrive");
+                    //Se eliminan ambas políticas
+                    try
+                    {
+                        RegKey.DeleteValue("NoDrives");
+                        RegKey.DeleteValue("NoViewOnDrive");
+                    }
+                    catch
+                    {
+                        RegKey.DeleteValue("NoViewOnDrive");
+                    }
                 }
             }
             else
@@ -80,7 +96,9 @@ namespace Drive
         #region NetworkDrive
         public void NewNetworkDrive(char letter, string path, string user, string password, string name)
         {
-            IWshNetwork_Class IWN = new IWshNetwork_Class();
+            //Inicialización del objeto
+            IWN = new IWshNetwork_Class();
+            //Monta unidades de red
             if (user != null)
             {
                 IWN.MapNetworkDrive(letter + ":", path, Type.Missing, user, password);
@@ -89,14 +107,20 @@ namespace Drive
             {
                 IWN.MapNetworkDrive(letter + ":", path);
             }
-            if (name != null)
+            //Crea un nombre si no fue dado
+            if (name == null)
             {
-                RenameDrive(letter, name);
+                string[] names = path.Split(new string[] {@"\"}, StringSplitOptions.None);
+                name = names[names.Length - 1];
             }
+            //Se renombra la unidad de red
+            RenameDrive(letter, name);
         }
         public void RemoveNetworkDrive(char letter)
         {
-            IWshNetwork_Class IWN = new IWshNetwork_Class();
+            //Inicialización del objeto
+            IWN = new IWshNetwork_Class();
+            //Desmonta unidades de red
             IWN.RemoveNetworkDrive(letter + ":", true);
         }
         #endregion
