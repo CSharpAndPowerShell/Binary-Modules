@@ -5,10 +5,6 @@ namespace Drive
 {
     public class DriveCommon
     {
-        #region Objects
-        IWshNetwork_Class network = new IWshNetwork_Class();
-        Drive.DriveCommon RD = new Drive.DriveCommon();
-        #endregion
         #region Methods
         #region Drive
         public void RenameDrive(char letter, string name)
@@ -84,22 +80,24 @@ namespace Drive
         #region NetworkDrive
         public void NewNetworkDrive(char letter, string path, string user, string password, string name)
         {
+            IWshNetwork_Class IWN = new IWshNetwork_Class();
             if (user != null)
             {
-                network.MapNetworkDrive(letter + ":", path, Type.Missing, user, password);
+                IWN.MapNetworkDrive(letter + ":", path, Type.Missing, user, password);
             }
             else
             {
-                network.MapNetworkDrive(letter + ":", path);
+                IWN.MapNetworkDrive(letter + ":", path);
             }
             if (name != null)
             {
-                RD.RenameDrive(letter, name);
+                RenameDrive(letter, name);
             }
         }
         public void RemoveNetworkDrive(char letter)
         {
-            network.RemoveNetworkDrive(letter + ":", true);
+            IWshNetwork_Class IWN = new IWshNetwork_Class();
+            IWN.RemoveNetworkDrive(letter + ":", true);
         }
         #endregion
         #endregion
