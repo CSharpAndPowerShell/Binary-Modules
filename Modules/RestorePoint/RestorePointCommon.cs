@@ -5,32 +5,19 @@ namespace RestorePoint
 {
     public class RestorePointCommon
     {
-        public void create_restorepoint()
+        public void create_restorepoint(string description)
         {
-            try
-            {
-                ManagementObject classInstance =
-                    new ManagementObject("root\\DEFAULT",
-                    "SystemRestore", null);
+            //Inicializando el objeto
+            ManagementObject classInstance = new ManagementObject("root\\DEFAULT", "SystemRestore", null);
 
-                // Obtain in-parameters for the method
-                ManagementBaseObject inParams =
-                    classInstance.GetMethodParameters("CreateRestorePoint");
+            // Obteniendo parámetros
+            ManagementBaseObject inParams = classInstance.GetMethodParameters("CreateRestorePoint");
 
-                // Add the input parameters.
-
-                // Execute the method and obtain the return values.
-                ManagementBaseObject outParams =
-                    classInstance.InvokeMethod("CreateRestorePoint", inParams, null);
-
-                // List outParams
-                Console.WriteLine("Out parameters:");
-                Console.WriteLine("ReturnValue: " + outParams["ReturnValue"]);
-            }
-            catch (ManagementException err)
-            {
-                MessageBox.Show("An error occurred while trying to execute the WMI method: " + err.Message);
-            }
+            // Add the input parameters.
+            inParams["Description"] = description;
+            inParams["RestorePointType"] = 1;
+            // Creando punto de restauración
+            ManagementBaseObject outParams = classInstance.InvokeMethod("CreateRestorePoint", inParams, null);
         }
     }
 }
