@@ -9,11 +9,9 @@ namespace RestorePoint
         {
             //Inicializando el objeto
             ManagementObject classInstance = new ManagementObject("root\\DEFAULT", "SystemRestore", null);
-            //
             // Obteniendo parámetros
             ManagementBaseObject inParams = classInstance.GetMethodParameters("CreateRestorePoint");
-
-            // Add the input parameters.
+            // Parametros para el método 'CreateRestorePoint'
             inParams["Description"] = description;
             inParams["RestorePointType"] = 1;
             // Creando punto de restauración
