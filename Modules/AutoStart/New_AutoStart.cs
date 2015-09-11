@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -44,7 +45,7 @@ namespace AutoStart
         {
             try
             {
-                NAS.WriteReg(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Name, Value);
+                NAS.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Name, Value);
             }
             catch (PSInvalidOperationException e)
             {

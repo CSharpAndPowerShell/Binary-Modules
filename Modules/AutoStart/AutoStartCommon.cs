@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -19,13 +20,14 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 namespace AutoStart
 {
-    class AutoStartCommon
+    class AutoStartCommon : Utils.Registry
     {
-        public void WriteReg(string key, string name, string value)
+        public void NewAutoStart(string key, string name, string value)
         {
             Microsoft.Win32.Registry.SetValue(key, name, value, Microsoft.Win32.RegistryValueKind.String);
         }
-        public void DeleteReg(string key, string name)
+
+        public void RemoveAutoStart(string key, string name)
         {
             Microsoft.Win32.RegistryKey RegKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(key, true);
             RegKey.DeleteValue(name);

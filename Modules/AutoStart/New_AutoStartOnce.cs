@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -27,14 +28,21 @@ namespace AutoStart
         #region Objects
         private AutoStartCommon NASO;
         #endregion
+
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de la nueva propiedad del registro.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre de la nueva propiedad del registro.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Valor de la propiedad, en este caso ruta al ejecutable.")]
+
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Valor de la propiedad, en este caso ruta al ejecutable.")]
         [ValidateNotNullOrEmpty]
         public string Value { get; set; }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {
@@ -44,7 +52,7 @@ namespace AutoStart
         {
             try
             {
-                NASO.WriteReg(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce", Name, Value);
+                NASO.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce", Name, Value);
             }
             catch (PSInvalidOperationException e)
             {

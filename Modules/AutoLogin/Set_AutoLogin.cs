@@ -17,6 +17,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
+using System;
 using System.Management.Automation; //Windows PowerShell NameSpace
 
 namespace AutoLogin
@@ -35,12 +36,18 @@ namespace AutoLogin
             set { disable = value; }
         }
         private bool disable;
-        [Parameter(Position = 0, HelpMessage = "Nombre del usuario a iniciar sesión automáticamente.")]
+
+        [Parameter(Position = 0,
+            HelpMessage = "Nombre del usuario a iniciar sesión automáticamente.")]
         [ValidateNotNullOrEmpty]
         public string User { get; set; }
-        [Parameter(Position = 1, HelpMessage = "Contraseña del usuario a iniciar sesión automáticamente.")]
+
+        [Parameter(Position = 1,
+            HelpMessage = "Contraseña del usuario a iniciar sesión automáticamente.")]
+        [ValidateNotNull]
         public string Password { get; set; }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {
@@ -50,20 +57,9 @@ namespace AutoLogin
         {
             try
             {
-                if (disable)
-                {
-                    SAL.SetAutoLogin(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "AutoAdminLogon", "0");
-                }
-                else
-                {
-                    SAL.SetAutoLogin(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "AutoAdminLogon", "1");
-                    SAL.SetAutoLogin(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "DefaultUsername", User);
-                    if (Password == null)
-                    {
-                        Password = "";
-                    }
-                    SAL.SetAutoLogin(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "DefaultPassword", Password);
-                }
+                SAL.SetAutoLogin("AutoAdminLogon", Convert.ToInt32(!disable).ToString());
+                SAL.SetAutoLogin("DefaultUsername", User);
+                SAL.SetAutoLogin("DefaultPassword", Password);
             }
             catch (PSInvalidOperationException e)
             {

@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -19,11 +20,12 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 namespace AutoLogin
 {
-    public class AutoLoginCommon
+    public class AutoLoginCommon : Utils.Registry
     {
-        public void SetAutoLogin(string key, string name, string value)
+        public void SetAutoLogin(string name, string value)
         {
-            Microsoft.Win32.Registry.SetValue(key, name, value, Microsoft.Win32.RegistryValueKind.String);
+            WriteReg(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon",
+                name, value);
         }
     }
 }

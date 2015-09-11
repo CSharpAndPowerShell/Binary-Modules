@@ -18,26 +18,19 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
-using System.Management.Automation; //Windows PowerShell NameSpace
-
-namespace AutoStart
+namespace Utils
 {
-    [Cmdlet(VerbsCommon.Get, "AutoStart")]
-    public class Get_AutoStart : Cmdlet
+    public class Registry
     {
-        #region Methods
-        protected override void ProcessRecord()
+        public void WriteReg(string key, string name, string value)
         {
-            try
-            {
-                Microsoft.Win32.RegistryKey RegKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
-                WriteObject(RegKey.GetValueNames());
-            }
-            catch (PSInvalidOperationException e)
-            {
-                WriteError(e.ErrorRecord);
-            }
+            Microsoft.Win32.Registry.SetValue(key, name, value, Microsoft.Win32.RegistryValueKind.String);
         }
-        #endregion
+
+        public void DeleteReg(string key, string name)
+        {
+            Microsoft.Win32.RegistryKey RegKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(key, true);
+            RegKey.DeleteValue(name);
+        }
     }
 }
