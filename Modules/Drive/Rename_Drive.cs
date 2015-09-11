@@ -28,10 +28,15 @@ namespace Drive
         private DriveCommon RD;
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Letra de la unidad.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Letra de la unidad.")]
         [ValidateNotNullOrEmpty]
         public char Letter { get; set; }
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de la unidad.")]
+
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre de la unidad.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion

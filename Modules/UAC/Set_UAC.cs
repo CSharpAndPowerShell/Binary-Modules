@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -28,26 +29,31 @@ namespace UAC
         private UACCommon SUAC;
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = false, HelpMessage = "Valor boleano de la propiedad.")]
+        [Parameter(Position = 0, Mandatory = false,
+            HelpMessage = "Activa el control de cuentas de usuario.")]
         public SwitchParameter Enable
         {
             get { return enable; }
             set { enable = value; }
         }
         private bool enable;
-        [Parameter(Position = 0, Mandatory = false, HelpMessage = "Valor boleano de la propiedad.")]
+
+        [Parameter(Position = 0, Mandatory = false,
+            HelpMessage = "Desactiva el control de cuentas de usuario.")]
         public SwitchParameter Disable
         {
             get { return disable; }
             set { disable = value; }
         }
         private bool disable;
+
         #endregion
         #region Methods
         protected override void BeginProcessing()
         {
             SUAC = new UACCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
@@ -64,6 +70,15 @@ namespace UAC
                         value = 0;
                     }
                     SUAC.Set_UAC(value);
+                }
+                else
+                {
+                    // Creando error
+                    ErrorRecord e = new ErrorRecord(new System.Exception("Overload"),
+                        "Passed more than one parameter", ErrorCategory.SyntaxError, SUAC);
+
+                    // Mostrando error
+                    WriteError(e);
                 }
             }
             catch (PSInvalidOperationException e)

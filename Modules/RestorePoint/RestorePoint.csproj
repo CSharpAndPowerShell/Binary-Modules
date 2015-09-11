@@ -39,8 +39,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="New_RestorePoint.cs" />
     <Compile Include="RestorePointCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Set_RestorePoint.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

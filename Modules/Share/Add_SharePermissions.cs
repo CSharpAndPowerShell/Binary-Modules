@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -29,21 +30,30 @@ namespace Share
         private ShareCommon ASP;
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del recurso compartido.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre del recurso compartido.")]
         [ValidateNotNullOrEmpty]
         public string Sharename { get; set; }
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del usuario o grupo al que le será compatido el recurso.")]
+
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre del usuario o grupo al que le será compatido el recurso.")]
         [ValidateNotNullOrEmpty]
         public string User { get; set; }
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nivel de acceso que se le otorgará al usuario o grupo.")]
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nivel de acceso que se le otorgará al usuario o grupo.")]
         [ValidateSet("FullControl", "Change", "Read")]
-        public string Access { get; set; }
+        public ShareCommon.AccessType Access { get; set; }
         #endregion
         #region Methods
         protected override void BeginProcessing()
         {
             ASP = new ShareCommon();
         }
+
         protected override void ProcessRecord()
         {
             try

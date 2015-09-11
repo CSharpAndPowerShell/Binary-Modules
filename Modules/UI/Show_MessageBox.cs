@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -29,15 +30,28 @@ namespace UI
         private UICommon SMB;
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del nuevo usuario.")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre del nuevo usuario.")]
         public string Message { get; set; }
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Contraseña para el nuevo usuario.")]
+
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Contraseña para el nuevo usuario.")]
         public string Title { get; set; }
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Letra en la que se montará el 'HomeDirectory'.")]
-        [ValidateSet("Asterisk", "Error", "Exclamation", "Hand", "Information", "None", "Question", "Stop", "Warning")]
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Letra en la que se montará el 'HomeDirectory'.")]
+        [ValidateSet("Asterisk", "Error", "Exclamation", "Hand",
+            "Information", "None", "Question", "Stop", "Warning")]
         public string Icon { get; set; }
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Letra en la que se montará el 'HomeDirectory'.")]
-        [ValidateSet("AbortRetryIgnore", "OK", "OKCancel", "RetryCancel", "YesNo", "YesNoCancel")]
+
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Letra en la que se montará el 'HomeDirectory'.")]
+        [ValidateSet("AbortRetryIgnore", "OK", "OKCancel",
+            "RetryCancel", "YesNo", "YesNoCancel")]
         public string Buttons { get; set; }
         #endregion
         #region Methods

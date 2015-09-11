@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -27,10 +28,13 @@ namespace User
         #region Objects
         private UserCommon RAU;
         private string[] ExcludeCollection;
-        private string[] ExcludeDefault = { "Administrator", "Administrador", "Invitado", "Guest", "DefaultAccount" };
+        private string[] ExcludeDefault = { "Administrator", "Administrador",
+            "Invitado", "Guest", "DefaultAccount" };
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de los usuarios a excluir.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre de los usuarios a excluir.")]
         public string[] Exclude
         {
             get { return ExcludeCollection; }
