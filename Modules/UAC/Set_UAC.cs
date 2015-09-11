@@ -18,6 +18,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
+using System;
 using System.Management.Automation; //Windows PowerShell NameSpace
 
 namespace UAC
@@ -46,8 +47,8 @@ namespace UAC
             set { disable = value; }
         }
         private bool disable;
-
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {
@@ -58,22 +59,19 @@ namespace UAC
         {
             try
             {
+                // Validando que no se establezcan ambos modificadores
                 if (!(enable && disable))
                 {
-                    int value = 0;
-                    if (enable)
-                    {
-                        value = 1;
-                    }
-                    if (disable)
-                    {
-                        value = 0;
-                    }
-                    SUAC.Set_UAC(value);
+                    /*
+                    Se convierte el boolean a entero true = 1, false = 0
+                    No se pueden establecer ambos modificadores, por lo que si se usa
+                    Disable, el enable esta implícito en false
+                    */
+                    SUAC.Set_UAC(Convert.ToInt32(enable));
                 }
                 else
                 {
-                    // Creando error
+                    // Creando error, cuando se establecen ambos modificadores
                     ErrorRecord e = new ErrorRecord(new System.Exception("Overload"),
                         "Passed more than one parameter", ErrorCategory.SyntaxError, SUAC);
 

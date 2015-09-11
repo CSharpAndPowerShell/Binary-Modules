@@ -19,12 +19,14 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 namespace UAC
 {
-    class UACCommon
+    public class UACCommon : Utils.Registry
     {
         public void Set_UAC(int value)
         {
-            Microsoft.Win32.Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA", value, Microsoft.Win32.RegistryValueKind.String);
-            Microsoft.Win32.Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "ConsentPromptBehaviorAdmin", value, Microsoft.Win32.RegistryValueKind.String);
+            WriteReg(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System",
+                "EnableLUA", value);
+            WriteReg(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System",
+                "ConsentPromptBehaviorAdmin", value);
         }
     }
 }

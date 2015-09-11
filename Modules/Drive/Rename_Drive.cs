@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -40,6 +41,7 @@ namespace Drive
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {

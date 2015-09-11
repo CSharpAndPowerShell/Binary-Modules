@@ -22,9 +22,10 @@ namespace Utils
 {
     public class Registry
     {
-        public void WriteReg(string key, string name, string value)
+        public void WriteReg(string key, string name, object value,
+            Microsoft.Win32.RegistryValueKind RVK = Microsoft.Win32.RegistryValueKind.String)
         {
-            Microsoft.Win32.Registry.SetValue(key, name, value, Microsoft.Win32.RegistryValueKind.String);
+            Microsoft.Win32.Registry.SetValue(key, name, value, RVK);
         }
 
         public void DeleteReg(string key, string name)
