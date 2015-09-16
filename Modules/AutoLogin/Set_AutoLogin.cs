@@ -28,8 +28,10 @@ namespace AutoLogin
         #region Objects
         private AutoLoginCommon SAL;
         #endregion
+
         #region Parameters
-        [Parameter(Position = 0, HelpMessage = "Deshabilitar el Autologin.")]
+        [Parameter(Position = 0,
+            HelpMessage = "Deshabilitar el Autologin.")]
         public SwitchParameter Disable
         {
             get { return disable; }
@@ -53,6 +55,7 @@ namespace AutoLogin
         {
             SAL = new AutoLoginCommon();
         }
+
         protected override void ProcessRecord()
         {
             try

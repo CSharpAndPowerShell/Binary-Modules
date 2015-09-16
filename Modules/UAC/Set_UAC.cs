@@ -30,7 +30,7 @@ namespace UAC
         private UACCommon SUAC;
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = false,
+        [Parameter(Position = 0,
             HelpMessage = "Activa el control de cuentas de usuario.")]
         public SwitchParameter Enable
         {
@@ -39,7 +39,7 @@ namespace UAC
         }
         private bool enable;
 
-        [Parameter(Position = 0, Mandatory = false,
+        [Parameter(Position = 0,
             HelpMessage = "Desactiva el control de cuentas de usuario.")]
         public SwitchParameter Disable
         {

@@ -31,6 +31,7 @@ namespace User
         private string[] ExcludeDefault = { "Administrator", "Administrador",
             "Invitado", "Guest", "DefaultAccount" };
         #endregion
+
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
@@ -41,11 +42,13 @@ namespace User
             set { ExcludeCollection = value; }
         }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {
             RAU = new UserCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
@@ -57,6 +60,7 @@ namespace User
                 WriteError(e.ErrorRecord);
             }
         }
+
         protected override void EndProcessing()
         {
             RAU.CloseConn();

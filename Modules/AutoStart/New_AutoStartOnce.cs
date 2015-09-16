@@ -52,7 +52,8 @@ namespace AutoStart
         {
             try
             {
-                NASO.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce", Name, Value);
+                NASO.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce",
+                    Name, Value);
             }
             catch (PSInvalidOperationException e)
             {

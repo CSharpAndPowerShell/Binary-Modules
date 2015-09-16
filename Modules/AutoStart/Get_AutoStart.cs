@@ -30,7 +30,8 @@ namespace AutoStart
         {
             try
             {
-                Microsoft.Win32.RegistryKey RegKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                Microsoft.Win32.RegistryKey RegKey =
+                    Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
                 WriteObject(RegKey.GetValueNames());
             }
             catch (PSInvalidOperationException e)

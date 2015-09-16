@@ -167,10 +167,13 @@ namespace User
             // Devuelve la lista de los nombres de los grupos
             // Se hace la consulta y se obtienen los grupos
             SelectQuery Query = new SelectQuery("Win32_Group");
+
             // Se crea un objeto buscador
             ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Query);
+
             // Objeto donde se almacenará la lista de grupos
             ArrayList Groups = new ArrayList();
+
             // Se agregan los nombres al ArrayList
             foreach (ManagementObject User in Searcher.Get())
             {

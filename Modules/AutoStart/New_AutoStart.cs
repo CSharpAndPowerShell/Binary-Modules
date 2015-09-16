@@ -29,13 +29,19 @@ namespace AutoStart
         private AutoStartCommon NAS;
         #endregion
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre de la nueva propiedad del registro.")]
+        [Parameter(Position = 0, Mandatory = true,
+            ValueFromPipeline = true, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre de la nueva propiedad del registro.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Valor de la propiedad, en este caso ruta al ejecutable.")]
+
+        [Parameter(Position = 1, Mandatory = true,
+            ValueFromPipeline = true, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Valor de la propiedad, en este caso ruta al ejecutable.")]
         [ValidateNotNullOrEmpty]
         public string Value { get; set; }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {
@@ -45,7 +51,8 @@ namespace AutoStart
         {
             try
             {
-                NAS.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Name, Value);
+                NAS.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
+                    Name, Value);
             }
             catch (PSInvalidOperationException e)
             {

@@ -28,6 +28,7 @@ namespace User
         #region Objects
         private UserCommon RG;
         #endregion
+
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
@@ -35,11 +36,13 @@ namespace User
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {
             RG = new UserCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
@@ -51,6 +54,7 @@ namespace User
                 WriteError(e.ErrorRecord);
             }
         }
+
         protected override void EndProcessing()
         {
             RG.CloseConn();

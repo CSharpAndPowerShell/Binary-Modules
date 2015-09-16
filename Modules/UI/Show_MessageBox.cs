@@ -19,6 +19,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 */
 
 using System.Management.Automation; //Windows PowerShell NameSpace
+using System.Windows.Forms;
 
 namespace UI
 {
@@ -29,31 +30,29 @@ namespace UI
         #region Objects
         private UICommon SMB;
         #endregion
+
         #region Parameters
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre del nuevo usuario.")]
+        [Parameter(Position = 0,
+            HelpMessage = "Mensaje de la ventana.")]
         public string Message { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Contraseña para el nuevo usuario.")]
+        [Parameter(Position = 1,
+            HelpMessage = "Título de la ventana.")]
         public string Title { get; set; }
 
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Letra en la que se montará el 'HomeDirectory'.")]
+        [Parameter(Position = 2,
+            HelpMessage = "Icono de la ventana.")]
         [ValidateSet("Asterisk", "Error", "Exclamation", "Hand",
             "Information", "None", "Question", "Stop", "Warning")]
-        public string Icon { get; set; }
+        public MessageBoxIcon Icon { get; set; }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Letra en la que se montará el 'HomeDirectory'.")]
+        [Parameter(Position = 3,
+            HelpMessage = "Botones de la ventana.")]
         [ValidateSet("AbortRetryIgnore", "OK", "OKCancel",
             "RetryCancel", "YesNo", "YesNoCancel")]
-        public string Buttons { get; set; }
+        public MessageBoxButtons Buttons { get; set; }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {

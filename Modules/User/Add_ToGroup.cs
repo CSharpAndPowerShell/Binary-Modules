@@ -48,6 +48,7 @@ namespace User
         {
             ATG = new UserCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
@@ -59,6 +60,7 @@ namespace User
                 WriteError(e.ErrorRecord);
             }
         }
+
         protected override void EndProcessing()
         {
             ATG.CloseConn();

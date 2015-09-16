@@ -26,8 +26,6 @@ namespace User
     [Cmdlet(VerbsCommon.Set, "User")]
     public class Set_User : New_User
     {
-        /*
-        Este es un alias de New_User, se requiere un nombre diferente
-        */
+        // Este es un alias de New_User, se requiere un nombre diferente
     }
 }
