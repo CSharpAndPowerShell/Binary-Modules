@@ -48,15 +48,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Add_ToGroup.cs" />
-    <Compile Include="New_Group.cs" />
-    <Compile Include="Remove_Group.cs" />
-    <Compile Include="Set_User.cs" />
+    <Compile Include="PS_AddToGroup.cs" />
+    <Compile Include="PS_NewGroup.cs" />
+    <Compile Include="PS_RemoveGroup.cs" />
+    <Compile Include="PS_SetUser.cs" />
     <Compile Include="UserCommon.cs" />
-    <Compile Include="New_User.cs" />
+    <Compile Include="PS_NewUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Remove_AllUsers.cs" />
-    <Compile Include="Remove_User.cs" />
+    <Compile Include="PS_RemoveAllUsers.cs" />
+    <Compile Include="PS_RemoveUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="User.dll-Help.xml">

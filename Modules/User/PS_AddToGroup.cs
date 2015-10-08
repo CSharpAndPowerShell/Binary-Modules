@@ -1,5 +1,6 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
+to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -19,35 +20,50 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace Share
+namespace User
 {
-    //Define el nombre del Cmdlet
-    [Cmdlet(VerbsCommon.Remove, "Share")]
-    public class Remove_Share : Cmdlet
+    [Cmdlet(VerbsCommon.Add, "ToGroup")]
+    public class PS_AddToGroup : Cmdlet
     {
         #region Objects
-        ShareCommon RS;
+        private UserCommon ATG;
         #endregion
+
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del recurso compartido a eliminar.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre del nuevo usuario.")]
         [ValidateNotNullOrEmpty]
-        public string Sharename { get; set; }
+        public string Name { get; set; }
+
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Grupo al que pertenecerá el nuevo usuario.")]
+        [ValidateNotNullOrEmpty]
+        public string Group { get; set; }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {
-            RS = new ShareCommon();
+            ATG = new UserCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
             {
-                RS.RemoveShare(Sharename);
+                ATG.AddToGroup(Name, Group);
             }
             catch (PSInvalidOperationException e)
             {
                 WriteError(e.ErrorRecord);
             }
+        }
+
+        protected override void EndProcessing()
+        {
+            ATG.CloseConn();
         }
         #endregion
     }

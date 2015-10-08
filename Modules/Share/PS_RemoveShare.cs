@@ -17,52 +17,32 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
-using System;
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace AutoLogin
+namespace Share
 {
-    [Cmdlet(VerbsCommon.Set, "AutoLogin")]
-    public class Set_AutoLogin : Cmdlet
+    //Define el nombre del Cmdlet
+    [Cmdlet(VerbsCommon.Remove, "Share")]
+    public class PS_RemoveShare : Cmdlet
     {
         #region Objects
-        private AutoLoginCommon SAL;
+        ShareCommon RS;
         #endregion
-
         #region Parameters
-        [Parameter(Position = 0,
-            HelpMessage = "Deshabilitar el Autologin.")]
-        public SwitchParameter Disable
-        {
-            get { return disable; }
-            set { disable = value; }
-        }
-        private bool disable;
-
-        [Parameter(Position = 0,
-            HelpMessage = "Nombre del usuario a iniciar sesión automáticamente.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Nombre del recurso compartido a eliminar.")]
         [ValidateNotNullOrEmpty]
-        public string User { get; set; }
-
-        [Parameter(Position = 1,
-            HelpMessage = "Contraseña del usuario a iniciar sesión automáticamente.")]
-        [ValidateNotNull]
-        public string Password { get; set; }
+        public string Sharename { get; set; }
         #endregion
-
         #region Methods
         protected override void BeginProcessing()
         {
-            SAL = new AutoLoginCommon();
+            RS = new ShareCommon();
         }
-
         protected override void ProcessRecord()
         {
             try
             {
-                SAL.SetAutoLogin("AutoAdminLogon", Convert.ToInt32(!disable).ToString());
-                SAL.SetAutoLogin("DefaultUsername", User);
-                SAL.SetAutoLogin("DefaultPassword", Password);
+                RS.RemoveShare(Sharename);
             }
             catch (PSInvalidOperationException e)
             {

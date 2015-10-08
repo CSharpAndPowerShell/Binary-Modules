@@ -19,41 +19,59 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 */
 
 using System.Management.Automation; //Windows PowerShell NameSpace
+using System.Security.AccessControl;
 
-namespace AutoStart
+namespace Share
 {
-    [Cmdlet(VerbsCommon.New, "AutoStartOnce")]
-    public class New_AutoStartOnce : Cmdlet
+    //Define el nombre del Cmdlet
+    [Cmdlet(VerbsCommon.New, "ACE")]
+    public class PS_NewACE : Cmdlet
     {
         #region Objects
-        private AutoStartCommon NASO;
+        private ShareCommon NA;
         #endregion
-
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre de la nueva propiedad del registro.")]
+            HelpMessage = "Ruta a la carpeta.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string Path { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Valor de la propiedad, en este caso ruta al ejecutable.")]
+            HelpMessage = "Nombre del usuario o grupo al que se le modificará el acceso.")]
         [ValidateNotNullOrEmpty]
-        public string Value { get; set; }
+        public string User { get; set; }
+
+        [Parameter(Position = 2, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nivel de acceso que se le otorgará al usuario o grupo.")]
+        [ValidateSet("ListDirectory", "ReadData", "WriteData", "CreateFiles",
+            "CreateDirectories", "AppendData", "ReadExtendedAttributes",
+            "WriteExtendedAttributes", "Traverse", "ExecuteFile",
+            "DeleteSubdirectoriesAndFiles", "ReadAttributes", "WriteAttributes",
+            "Write", "Delete", "ReadPermissions", "Read", "ReadAndExecute", "Modify",
+            "ChangePermissions", "TakeOwnership", "Synchronize", "FullControl")]
+        public FileSystemRights Right { get; set; }
+
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Tipo de ACL que se le otorgará al usuario o grupo.")]
+        [ValidateSet("Allow", "Deny")]
+        public AccessControlType ACL { get; set; }
         #endregion
 
         #region Methods
         protected override void BeginProcessing()
         {
-            NASO = new AutoStartCommon();
+            NA = new ShareCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
             {
-                NASO.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce",
-                    Name, Value);
+                NA.NewACE(Path, User, Right, ACL);
             }
             catch (PSInvalidOperationException e)
             {

@@ -20,24 +20,19 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace Drive
+namespace User
 {
-    [Cmdlet(VerbsCommon.Rename, "Drive")]
-    public class Rename_Drive : Cmdlet
+    [Cmdlet(VerbsCommon.Remove, "User")]
+    public class PS_RemoveUser : Cmdlet
     {
         #region Objects
-        private DriveCommon RD;
+        private UserCommon RU;
         #endregion
-        #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Letra de la unidad.")]
-        [ValidateNotNullOrEmpty]
-        public char Letter { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre de la unidad.")]
+        #region Parameters
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, 
+            ValueFromPipelineByPropertyName = true, 
+            HelpMessage = "Nombre del usuario a eliminar.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion
@@ -45,18 +40,24 @@ namespace Drive
         #region Methods
         protected override void BeginProcessing()
         {
-            RD = new DriveCommon();
+            RU = new UserCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
             {
-                RD.RenameDrive(Letter, Name);
+                RU.RemoveUser(Name);
             }
             catch (PSInvalidOperationException e)
             {
                 WriteError(e.ErrorRecord);
             }
+        }
+
+        protected override void EndProcessing()
+        {
+            RU.CloseConn();
         }
         #endregion
     }

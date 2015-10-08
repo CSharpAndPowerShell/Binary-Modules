@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoLoginCommon.cs" />
-    <Compile Include="Set_AutoLogin.cs" />
+    <Compile Include="PS_SetAutoLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -18,30 +18,44 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
-using System.Management.Automation;
+using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace RestorePoint
+namespace Drive
 {
-    [Cmdlet(VerbsCommon.Set, "RestorePoint")]
-    public class Set_RestorePoint : Cmdlet
+    [Cmdlet(VerbsCommon.Set, "Drives")]
+    public class PS_SetDrives : Cmdlet
     {
         #region Objects
-        private RestorePointCommon SRPC;
+        private DriveCommon SD;
         #endregion
+
         #region Parameters
         [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Habilita la restauración en la unidad.")]
-        public SwitchParameter Enable
+            HelpMessage = "Valor boleano de la propiedad.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter NoDrives
         {
-            get { return enable; }
-            set { enable = value; }
+            get { return nodrives; }
+            set { nodrives = value; }
         }
-        private bool enable;
+        private bool nodrives;
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Deshabilita la restauración en la unidad.")]
+            HelpMessage = "Valor boleano de la propiedad.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter NoViewOnDrive
+        {
+            get { return noviewondrive; }
+            set { noviewondrive = value; }
+        }
+        private bool noviewondrive;
+
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Valor boleano de la propiedad.")]
+        [ValidateNotNullOrEmpty]
         public SwitchParameter Disable
         {
             get { return disable; }
@@ -51,40 +65,24 @@ namespace RestorePoint
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Unidad a activar o desactivar la restauración.")]
-        [ValidateNotNullOrEmpty]
-        public string Drive { get; set; }
+            HelpMessage = "Nombre de los usuarios a excluir.")]
+        public string[] Drives
+        {
+            get { return drives; }
+            set { drives = value; }
+        }
+        private string[] drives;
         #endregion
-
         #region Methods
         protected override void BeginProcessing()
         {
-            SRPC = new RestorePointCommon();
+            SD = new DriveCommon();
         }
         protected override void ProcessRecord()
         {
             try
             {
-                if (!(enable && disable))
-                {
-                    if (enable)
-                    {
-                        SRPC.SetRestorePoint("Enable", Drive);
-                    }
-                    else if (disable)
-                    {
-                        SRPC.SetRestorePoint("Disable", Drive);
-                    }
-                }
-                else
-                {
-                    // Creando error
-                    ErrorRecord e = new ErrorRecord(new System.Exception("Overload"),
-                        "Passed more than one parameter", ErrorCategory.SyntaxError, SRPC);
-
-                    // Mostrando error
-                    WriteError(e);
-                }
+                SD.SetDrives(drives, nodrives, noviewondrive, disable);
             }
             catch (PSInvalidOperationException e)
             {

@@ -19,46 +19,50 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 */
 
 using System.Management.Automation; //Windows PowerShell NameSpace
+using System.Windows.Forms;
 
-namespace Share
+namespace UI
 {
     //Define el nombre del Cmdlet
-    [Cmdlet(VerbsCommon.Add, "SharePermissions")]
-    public class Add_SharePermissions : Cmdlet
+    [Cmdlet(VerbsCommon.Show, "MessageBox")]
+    public class PS_ShowMessageBox : Cmdlet
     {
         #region Objects
-        private ShareCommon ASP;
+        private UICommon SMB;
         #endregion
+
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre del recurso compartido.")]
-        [ValidateNotNullOrEmpty]
-        public string Sharename { get; set; }
+        [Parameter(Position = 0,
+            HelpMessage = "Mensaje de la ventana.")]
+        public string Message { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre del usuario o grupo al que le será compatido el recurso.")]
-        [ValidateNotNullOrEmpty]
-        public string User { get; set; }
+        [Parameter(Position = 1,
+            HelpMessage = "Título de la ventana.")]
+        public string Title { get; set; }
 
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nivel de acceso que se le otorgará al usuario o grupo.")]
-        [ValidateSet("FullControl", "Change", "Read")]
-        public ShareCommon.AccessType Access { get; set; }
+        [Parameter(Position = 2,
+            HelpMessage = "Icono de la ventana.")]
+        [ValidateSet("Asterisk", "Error", "Exclamation", "Hand",
+            "Information", "None", "Question", "Stop", "Warning")]
+        public MessageBoxIcon Icon { get; set; }
+
+        [Parameter(Position = 3,
+            HelpMessage = "Botones de la ventana.")]
+        [ValidateSet("AbortRetryIgnore", "OK", "OKCancel",
+            "RetryCancel", "YesNo", "YesNoCancel")]
+        public MessageBoxButtons Buttons { get; set; }
         #endregion
+
         #region Methods
         protected override void BeginProcessing()
         {
-            ASP = new ShareCommon();
+            SMB = new UICommon();
         }
-
         protected override void ProcessRecord()
         {
             try
             {
-                ASP.AddSharePermissions(Sharename,User,Access);
+                WriteObject(SMB.ShowMessageBox(Message, Title, Buttons, Icon));
             }
             catch (PSInvalidOperationException e)
             {

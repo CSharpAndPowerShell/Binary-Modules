@@ -22,67 +22,50 @@ using System.Management.Automation; //Windows PowerShell NameSpace
 
 namespace Drive
 {
-    [Cmdlet(VerbsCommon.Set, "Drives")]
-    public class Set_Drives : Cmdlet
+    [Cmdlet(VerbsCommon.New, "NetworkDrive")]
+    public class PS_NewNetworkDrive : Cmdlet
     {
         #region Objects
-        private DriveCommon SD;
+        private DriveCommon NND;
         #endregion
-
         #region Parameters
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Valor boleano de la propiedad.")]
+            HelpMessage = "Letra a montar.")]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter NoDrives
-        {
-            get { return nodrives; }
-            set { nodrives = value; }
-        }
-        private bool nodrives;
+        public char Letter { get; set; }
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Valor boleano de la propiedad.")]
+            HelpMessage = "Ruta UNC del recurso compartido.")]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter NoViewOnDrive
-        {
-            get { return noviewondrive; }
-            set { noviewondrive = value; }
-        }
-        private bool noviewondrive;
+        public string Path { get; set; }
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Valor boleano de la propiedad.")]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter Disable
-        {
-            get { return disable; }
-            set { disable = value; }
-        }
-        private bool disable;
+            HelpMessage = "Nombre de usuario que tiene acceso al recurso.")]
+        public string User { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true,
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre de los usuarios a excluir.")]
-        public string[] Drives
-        {
-            get { return drives; }
-            set { drives = value; }
-        }
-        private string[] drives;
+            HelpMessage = "Contraseña del usuario.")]
+        public string Password { get; set; }
+
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre de la nueva unidad.")]
+        public string Name { get; set; }
         #endregion
         #region Methods
         protected override void BeginProcessing()
         {
-            SD = new DriveCommon();
+            NND = new DriveCommon();
         }
         protected override void ProcessRecord()
         {
             try
             {
-                SD.SetDrives(drives, nodrives, noviewondrive, disable);
+                NND.NewNetworkDrive(Letter, Path, User, Password, Name);
             }
             catch (PSInvalidOperationException e)
             {

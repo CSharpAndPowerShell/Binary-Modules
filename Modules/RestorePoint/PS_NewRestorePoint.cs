@@ -18,52 +18,57 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
-using System.Management.Automation; //Windows PowerShell NameSpace
+using System.Management.Automation;
 
-namespace User
+namespace RestorePoint
 {
-    [Cmdlet(VerbsCommon.Add, "ToGroup")]
-    public class Add_ToGroup : Cmdlet
+    [Cmdlet(VerbsCommon.New, "RestorePoint")]
+    public class PS_NewRestorePoint : Cmdlet
     {
         #region Objects
-        private UserCommon ATG;
+        private RestorePointCommon NRPC;
         #endregion
 
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre del nuevo usuario.")]
+            HelpMessage = "Descripción del punto de restauración.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string Description { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Grupo al que pertenecerá el nuevo usuario.")]
+            HelpMessage = "Tipo del punto de restauración.")]
+        [ValidateSet("APPLICATION_INSTALL", "APPLICATION_UNINSTALL",
+            "CANCELLED_OPERATION", "DEVICE_DRIVER_INSTALL", "MODIFY_SETTINGS")]
         [ValidateNotNullOrEmpty]
-        public string Group { get; set; }
+        public RestorePointCommon.RestorePointType RestorePointType { get; set; }
+
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Tipo de evento del punto de restauración.")]
+        [ValidateSet("BEGIN_SYSTEM_CHANGE", "END_SYSTEM_CHANGE",
+            "BEGIN_NESTED_SYSTEM_CHANGE", "END_NESTED_SYSTEM_CHANGE")]
+        [ValidateNotNullOrEmpty]
+        public RestorePointCommon.EventType EventType { get; set; }
         #endregion
 
         #region Methods
         protected override void BeginProcessing()
         {
-            ATG = new UserCommon();
+            NRPC = new RestorePointCommon();
         }
 
         protected override void ProcessRecord()
         {
             try
             {
-                ATG.AddToGroup(Name, Group);
+                NRPC.NewRestorePoint(Description, RestorePointType, EventType);
             }
             catch (PSInvalidOperationException e)
             {
                 WriteError(e.ErrorRecord);
             }
-        }
-
-        protected override void EndProcessing()
-        {
-            ATG.CloseConn();
         }
         #endregion
     }

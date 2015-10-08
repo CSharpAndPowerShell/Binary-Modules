@@ -18,52 +18,40 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
-using System.Management.Automation;
+using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace RestorePoint
+namespace Drive
 {
-    [Cmdlet(VerbsCommon.New, "RestorePoint")]
-    public class New_RestorePoint : Cmdlet
+    [Cmdlet(VerbsCommon.Rename, "Drive")]
+    public class PS_RenameDrive : Cmdlet
     {
         #region Objects
-        private RestorePointCommon NRPC;
+        private DriveCommon RD;
         #endregion
-
         #region Parameters
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Descripción del punto de restauración.")]
+            HelpMessage = "Letra de la unidad.")]
         [ValidateNotNullOrEmpty]
-        public string Description { get; set; }
+        public char Letter { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Tipo del punto de restauración.")]
-        [ValidateSet("APPLICATION_INSTALL", "APPLICATION_UNINSTALL",
-            "CANCELLED_OPERATION", "DEVICE_DRIVER_INSTALL", "MODIFY_SETTINGS")]
+            HelpMessage = "Nombre de la unidad.")]
         [ValidateNotNullOrEmpty]
-        public RestorePointCommon.RestorePointType RestorePointType { get; set; }
-
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Tipo de evento del punto de restauración.")]
-        [ValidateSet("BEGIN_SYSTEM_CHANGE", "END_SYSTEM_CHANGE",
-            "BEGIN_NESTED_SYSTEM_CHANGE", "END_NESTED_SYSTEM_CHANGE")]
-        [ValidateNotNullOrEmpty]
-        public RestorePointCommon.EventType EventType { get; set; }
+        public string Name { get; set; }
         #endregion
 
         #region Methods
         protected override void BeginProcessing()
         {
-            NRPC = new RestorePointCommon();
+            RD = new DriveCommon();
         }
-
         protected override void ProcessRecord()
         {
             try
             {
-                NRPC.NewRestorePoint(Description, RestorePointType, EventType);
+                RD.RenameDrive(Letter, Name);
             }
             catch (PSInvalidOperationException e)
             {

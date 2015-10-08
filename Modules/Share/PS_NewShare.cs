@@ -25,7 +25,7 @@ namespace Share
 {
     //Define el nombre del Cmdlet
     [Cmdlet(VerbsCommon.New, "Share")]
-    public class New_Share : Cmdlet
+    public class PS_NewShare : Cmdlet
     {
         #region Objects
         private ShareCommon NS;

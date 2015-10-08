@@ -41,11 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoStartCommon.cs" />
-    <Compile Include="Get_AutoStart.cs" />
-    <Compile Include="Remove_AutoStart.cs" />
-    <Compile Include="New_AutoStartOnce.cs" />
+    <Compile Include="PS_GetAutoStart.cs" />
+    <Compile Include="PS_RemoveAutoStart.cs" />
+    <Compile Include="PS_NewAutoStartOnce.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="New_AutoStart.cs" />
+    <Compile Include="PS_NewAutoStart.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoStart.dll-Help.xml" />

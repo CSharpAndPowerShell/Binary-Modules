@@ -20,19 +20,33 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace AutoStart
+namespace Drive
 {
-    [Cmdlet(VerbsCommon.Get, "AutoStart")]
-    public class Get_AutoStart : Cmdlet
+    [Cmdlet(VerbsCommon.Remove, "NetworkDrive")]
+    public class PS_RemoveNetworkDrive : Cmdlet
     {
+        #region Objects
+        private DriveCommon RND;
+        #endregion
+
+        #region Parameters
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Letra a desmontar.")]
+        [ValidateNotNullOrEmpty]
+        public char Letter { get; set; }
+        #endregion
+
         #region Methods
+        protected override void BeginProcessing()
+        {
+            RND = new DriveCommon();
+        }
         protected override void ProcessRecord()
         {
             try
             {
-                Microsoft.Win32.RegistryKey RegKey =
-                    Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
-                WriteObject(RegKey.GetValueNames());
+                RND.RemoveNetworkDrive(Letter);
             }
             catch (PSInvalidOperationException e)
             {

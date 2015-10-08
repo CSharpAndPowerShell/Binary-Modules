@@ -44,11 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DriveCommon.cs" />
-    <Compile Include="New_NetworkDrive.cs" />
+    <Compile Include="PS_NewNetworkDrive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Remove_NetworkDrive.cs" />
-    <Compile Include="Set_Drives.cs" />
-    <Compile Include="Rename_Drive.cs" />
+    <Compile Include="PS_RemoveNetworkDrive.cs" />
+    <Compile Include="PS_SetDrives.cs" />
+    <Compile Include="PS_RenameDrive.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">

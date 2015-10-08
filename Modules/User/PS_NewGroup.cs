@@ -22,32 +22,36 @@ using System.Management.Automation; //Windows PowerShell NameSpace
 
 namespace User
 {
-    [Cmdlet(VerbsCommon.Remove, "User")]
-    public class Remove_User : Cmdlet
+    [Cmdlet(VerbsCommon.New, "Group")]
+    public class PS_NewGroup : Cmdlet
     {
         #region Objects
-        private UserCommon RU;
+        private UserCommon NG;
         #endregion
-
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, 
-            ValueFromPipelineByPropertyName = true, 
-            HelpMessage = "Nombre del usuario a eliminar.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre del nuevo grupo.")]
         [ValidateNotNullOrEmpty]
+        [ValidateLength(1, 14)]
         public string Name { get; set; }
-        #endregion
 
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Descripción del nuevo grupo.")]
+        public string Description { get; set; }
+        #endregion
         #region Methods
         protected override void BeginProcessing()
         {
-            RU = new UserCommon();
+            NG = new UserCommon();
         }
 
         protected override void ProcessRecord()
         {
             try
             {
-                RU.RemoveUser(Name);
+                NG.NewGroup(Name, Description);
             }
             catch (PSInvalidOperationException e)
             {
@@ -57,7 +61,7 @@ namespace User
 
         protected override void EndProcessing()
         {
-            RU.CloseConn();
+            NG.CloseConn();
         }
         #endregion
     }

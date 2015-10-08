@@ -41,11 +41,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Add_SharePermissions.cs" />
-    <Compile Include="New_ACE.cs" />
-    <Compile Include="New_Share.cs" />
-    <Compile Include="Remove-AllShares.cs" />
-    <Compile Include="Remove_Share.cs" />
+    <Compile Include="PS_AddSharePermissions.cs" />
+    <Compile Include="PS_NewACE.cs" />
+    <Compile Include="PS_NewShare.cs" />
+    <Compile Include="PS_RemoveAllShares.cs" />
+    <Compile Include="PS_RemoveShare.cs" />
     <Compile Include="ShareCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

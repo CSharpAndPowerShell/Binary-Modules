@@ -20,39 +20,50 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace AutoStart
+namespace User
 {
-    [Cmdlet(VerbsCommon.Remove, "AutoStart")]
-    public class Remove_AutoStart : Cmdlet
+    [Cmdlet(VerbsCommon.Remove, "AllUsers")]
+    public class PS_RemoveAllUsers : Cmdlet
     {
         #region Objects
-        private AutoStartCommon RAS;
+        private UserCommon RAU;
+        private string[] ExcludeCollection;
+        private string[] ExcludeDefault = { "Administrator", "Administrador",
+            "Invitado", "Guest", "DefaultAccount" };
         #endregion
 
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true,
-            ValueFromPipeline = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre de la nueva propiedad del registro.")]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre de los usuarios a excluir.")]
+        public string[] Exclude
+        {
+            get { return ExcludeCollection; }
+            set { ExcludeCollection = value; }
+        }
         #endregion
 
         #region Methods
         protected override void BeginProcessing()
         {
-            RAS = new AutoStartCommon();
+            RAU = new UserCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
             {
-                RAS.RemoveAutoStart(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
-                    Name);
+                RAU.RemoveAllUsers(ExcludeDefault, ExcludeCollection);
             }
             catch (PSInvalidOperationException e)
             {
                 WriteError(e.ErrorRecord);
             }
+        }
+
+        protected override void EndProcessing()
+        {
+            RAU.CloseConn();
         }
         #endregion
     }

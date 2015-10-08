@@ -20,33 +20,39 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace Drive
+namespace AutoStart
 {
-    [Cmdlet(VerbsCommon.Remove, "NetworkDrive")]
-    public class Remove_NetworkDrive : Cmdlet
+    [Cmdlet(VerbsCommon.New, "AutoStart")]
+    public class PS_NewAutoStart : Cmdlet
     {
         #region Objects
-        private DriveCommon RND;
+        private AutoStartCommon NAS;
         #endregion
-
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Letra a desmontar.")]
+        [Parameter(Position = 0, Mandatory = true,
+            ValueFromPipeline = true, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre de la nueva propiedad del registro.")]
         [ValidateNotNullOrEmpty]
-        public char Letter { get; set; }
+        public string Name { get; set; }
+
+        [Parameter(Position = 1, Mandatory = true,
+            ValueFromPipeline = true, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Valor de la propiedad, en este caso ruta al ejecutable.")]
+        [ValidateNotNullOrEmpty]
+        public string Value { get; set; }
         #endregion
 
         #region Methods
         protected override void BeginProcessing()
         {
-            RND = new DriveCommon();
+            NAS = new AutoStartCommon();
         }
         protected override void ProcessRecord()
         {
             try
             {
-                RND.RemoveNetworkDrive(Letter);
+                NAS.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
+                    Name, Value);
             }
             catch (PSInvalidOperationException e)
             {

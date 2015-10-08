@@ -24,7 +24,7 @@ namespace User
 {
     //Define el nombre del Cmdlet
     [Cmdlet(VerbsCommon.Set, "User")]
-    public class Set_User : New_User
+    public class PS_SetUser : PS_NewUser
     {
         // Este es un alias de New_User, se requiere un nombre diferente
     }

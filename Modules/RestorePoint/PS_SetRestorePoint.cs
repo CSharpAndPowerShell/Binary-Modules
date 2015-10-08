@@ -18,20 +18,20 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
-using System;
-using System.Management.Automation; //Windows PowerShell NameSpace
+using System.Management.Automation;
 
-namespace UAC
+namespace RestorePoint
 {
-    [Cmdlet(VerbsCommon.Set, "UAC")]
-    public class Set_UAC : Cmdlet
+    [Cmdlet(VerbsCommon.Set, "RestorePoint")]
+    public class PS_SetRestorePoint : Cmdlet
     {
         #region Objects
-        private UACCommon SUAC;
+        private RestorePointCommon SRPC;
         #endregion
         #region Parameters
-        [Parameter(Position = 0,
-            HelpMessage = "Activa el control de cuentas de usuario.")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Habilita la restauración en la unidad.")]
         public SwitchParameter Enable
         {
             get { return enable; }
@@ -39,41 +39,48 @@ namespace UAC
         }
         private bool enable;
 
-        [Parameter(Position = 0,
-            HelpMessage = "Desactiva el control de cuentas de usuario.")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Deshabilita la restauración en la unidad.")]
         public SwitchParameter Disable
         {
             get { return disable; }
             set { disable = value; }
         }
         private bool disable;
+
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Unidad a activar o desactivar la restauración.")]
+        [ValidateNotNullOrEmpty]
+        public string Drive { get; set; }
         #endregion
 
         #region Methods
         protected override void BeginProcessing()
         {
-            SUAC = new UACCommon();
+            SRPC = new RestorePointCommon();
         }
-
         protected override void ProcessRecord()
         {
             try
             {
-                // Validando que no se establezcan ambos modificadores
                 if (!(enable && disable))
                 {
-                    /*
-                    Se convierte el boolean a entero true = 1, false = 0
-                    No se pueden establecer ambos modificadores, por lo que si se usa
-                    Disable, el enable esta implícito en false
-                    */
-                    SUAC.Set_UAC(Convert.ToInt32(enable));
+                    if (enable)
+                    {
+                        SRPC.SetRestorePoint("Enable", Drive);
+                    }
+                    else if (disable)
+                    {
+                        SRPC.SetRestorePoint("Disable", Drive);
+                    }
                 }
                 else
                 {
-                    // Creando error, cuando se establecen ambos modificadores
+                    // Creando error
                     ErrorRecord e = new ErrorRecord(new System.Exception("Overload"),
-                        "Passed more than one parameter", ErrorCategory.SyntaxError, SUAC);
+                        "Passed more than one parameter", ErrorCategory.SyntaxError, SRPC);
 
                     // Mostrando error
                     WriteError(e);

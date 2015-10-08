@@ -24,7 +24,7 @@ namespace User
 {
     //Define el nombre del Cmdlet
     [Cmdlet(VerbsCommon.New, "User")]
-    public class New_User : Cmdlet
+    public class PS_NewUser : Cmdlet
     {
         #region Objects
         private UserCommon NU;

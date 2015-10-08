@@ -1,6 +1,5 @@
 ﻿/*
-CSharpAndPowerShell Modules, tries to help Microsoft Windows admins
-to write automated scripts easier.
+CSharpAndPowerShell Modules, tries to help Microsoft Windows admins to write automated scripts easier.
 Copyright(C) 2015  Cristopher Robles Ríos
 
 This program is free software: you can redistribute it and/or modify
@@ -18,52 +17,57 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 */
 
+using System;
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace User
+namespace AutoLogin
 {
-    [Cmdlet(VerbsCommon.Remove, "AllUsers")]
-    public class Remove_AllUsers : Cmdlet
+    [Cmdlet(VerbsCommon.Set, "AutoLogin")]
+    public class PS_SetAutoLogin : Cmdlet
     {
         #region Objects
-        private UserCommon RAU;
-        private string[] ExcludeCollection;
-        private string[] ExcludeDefault = { "Administrator", "Administrador",
-            "Invitado", "Guest", "DefaultAccount" };
+        private AutoLoginCommon SAL;
         #endregion
 
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre de los usuarios a excluir.")]
-        public string[] Exclude
+        [Parameter(Position = 0,
+            HelpMessage = "Deshabilitar el Autologin.")]
+        public SwitchParameter Disable
         {
-            get { return ExcludeCollection; }
-            set { ExcludeCollection = value; }
+            get { return disable; }
+            set { disable = value; }
         }
+        private bool disable;
+
+        [Parameter(Position = 0,
+            HelpMessage = "Nombre del usuario a iniciar sesión automáticamente.")]
+        [ValidateNotNullOrEmpty]
+        public string User { get; set; }
+
+        [Parameter(Position = 1,
+            HelpMessage = "Contraseña del usuario a iniciar sesión automáticamente.")]
+        [ValidateNotNull]
+        public string Password { get; set; }
         #endregion
 
         #region Methods
         protected override void BeginProcessing()
         {
-            RAU = new UserCommon();
+            SAL = new AutoLoginCommon();
         }
 
         protected override void ProcessRecord()
         {
             try
             {
-                RAU.RemoveAllUsers(ExcludeDefault, ExcludeCollection);
+                SAL.SetAutoLogin("AutoAdminLogon", Convert.ToInt32(!disable).ToString());
+                SAL.SetAutoLogin("DefaultUsername", User);
+                SAL.SetAutoLogin("DefaultPassword", Password);
             }
             catch (PSInvalidOperationException e)
             {
                 WriteError(e.ErrorRecord);
             }
-        }
-
-        protected override void EndProcessing()
-        {
-            RAU.CloseConn();
         }
         #endregion
     }

@@ -20,44 +20,44 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace AutoStart
+namespace User
 {
-    [Cmdlet(VerbsCommon.New, "AutoStart")]
-    public class New_AutoStart : Cmdlet
+    [Cmdlet(VerbsCommon.Remove, "Group")]
+    public class PS_RemoveGroup : Cmdlet
     {
         #region Objects
-        private AutoStartCommon NAS;
+        private UserCommon RG;
         #endregion
+
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true,
-            ValueFromPipeline = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre de la nueva propiedad del registro.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre del grupo a eliminar.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
-
-        [Parameter(Position = 1, Mandatory = true,
-            ValueFromPipeline = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Valor de la propiedad, en este caso ruta al ejecutable.")]
-        [ValidateNotNullOrEmpty]
-        public string Value { get; set; }
         #endregion
 
         #region Methods
         protected override void BeginProcessing()
         {
-            NAS = new AutoStartCommon();
+            RG = new UserCommon();
         }
+
         protected override void ProcessRecord()
         {
             try
             {
-                NAS.NewAutoStart(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
-                    Name, Value);
+                RG.RemoveGroup(Name);
             }
             catch (PSInvalidOperationException e)
             {
                 WriteError(e.ErrorRecord);
             }
+        }
+
+        protected override void EndProcessing()
+        {
+            RG.CloseConn();
         }
         #endregion
     }

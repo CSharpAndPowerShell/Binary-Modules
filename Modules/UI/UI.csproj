@@ -41,7 +41,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Show_MessageBox.cs" />
+    <Compile Include="PS_ShowMessageBox.cs" />
     <Compile Include="UICommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

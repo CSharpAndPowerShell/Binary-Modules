@@ -20,19 +20,19 @@ along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Management.Automation; //Windows PowerShell NameSpace
 
-namespace User
+namespace AutoStart
 {
-    [Cmdlet(VerbsCommon.Remove, "Group")]
-    public class Remove_Group : Cmdlet
+    [Cmdlet(VerbsCommon.Remove, "AutoStart")]
+    public class PS_RemoveAutoStart : Cmdlet
     {
         #region Objects
-        private UserCommon RG;
+        private AutoStartCommon RAS;
         #endregion
 
         #region Parameters
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Nombre del grupo a eliminar.")]
+        [Parameter(Position = 0, Mandatory = true,
+            ValueFromPipeline = true, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Nombre de la nueva propiedad del registro.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
         #endregion
@@ -40,24 +40,19 @@ namespace User
         #region Methods
         protected override void BeginProcessing()
         {
-            RG = new UserCommon();
+            RAS = new AutoStartCommon();
         }
-
         protected override void ProcessRecord()
         {
             try
             {
-                RG.RemoveGroup(Name);
+                RAS.RemoveAutoStart(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
+                    Name);
             }
             catch (PSInvalidOperationException e)
             {
                 WriteError(e.ErrorRecord);
             }
-        }
-
-        protected override void EndProcessing()
-        {
-            RG.CloseConn();
         }
         #endregion
     }
